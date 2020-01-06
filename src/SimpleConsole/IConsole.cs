@@ -2,9 +2,9 @@
 {
     public interface IConsole
     {
-        string Write(string value);
+        T Write<T>(T value);
 
-        string WriteLine(string value);
+        T WriteLine<T>(T value);
 
         string ReadLine();
     }

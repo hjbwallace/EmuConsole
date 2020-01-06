@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 
 namespace SimpleConsole.Tests
 {
     public class TestConsole : IConsole
     {
         private readonly LinkedList<string> _linesToRead = new LinkedList<string>();
+        private int _linesRead;
+        private int _linesWritten;
 
         public string ReadLine()
         {
@@ -16,23 +19,36 @@ namespace SimpleConsole.Tests
             var line = _linesToRead.First();
             _linesToRead.RemoveFirst();
 
+            _linesRead++;
+
             return line;
         }
 
-        public string Write(string value)
+        public T Write<T>(T value)
         {
             return value;
         }
 
-        public string WriteLine(string value)
+        public T WriteLine<T>(T value)
         {
+            _linesWritten++;
             return value;
         }
 
-        public void AddLinesToRead(params string[] linesToRead)
+        public void AddLinesToRead(params object[] linesToRead)
         {
             foreach (var lineToRead in linesToRead)
-                _linesToRead.AddLast(lineToRead);
+                _linesToRead.AddLast(lineToRead?.ToString());
+        }
+
+        public void HasLinesRead(int expected)
+        {
+            Assert.Equal(expected, _linesRead);
+        }
+
+        public void HasLinesWritten(int expected)
+        {
+            Assert.Equal(expected, _linesWritten);
         }
     }
 }

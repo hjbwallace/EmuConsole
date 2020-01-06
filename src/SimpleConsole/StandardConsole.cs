@@ -9,13 +9,13 @@ namespace SimpleConsole
             return Console.ReadLine();
         }
 
-        public string Write(string value)
+        public T Write<T>(T value)
         {
             Console.Write(value);
             return value;
         }
 
-        public string WriteLine(string value)
+        public T WriteLine<T>(T value)
         {
             Console.WriteLine(value);
             return value;
