@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Xunit;
 
 namespace SimpleConsole.Tests
@@ -8,6 +9,7 @@ namespace SimpleConsole.Tests
     public class TestConsole : IConsole
     {
         private readonly LinkedList<string> _linesToRead = new LinkedList<string>();
+        private readonly StringBuilder _output = new StringBuilder();
         private int _linesRead;
         private int _linesWritten;
 
@@ -20,18 +22,21 @@ namespace SimpleConsole.Tests
             _linesToRead.RemoveFirst();
 
             _linesRead++;
+            _output.Append(line + Environment.NewLine);
 
             return line;
         }
 
         public T Write<T>(T value)
         {
+            _output.Append(value);
             return value;
         }
 
         public T WriteLine<T>(T value)
         {
             _linesWritten++;
+            _output.Append(value + Environment.NewLine);
             return value;
         }
 
@@ -49,6 +54,12 @@ namespace SimpleConsole.Tests
         public void HasLinesWritten(int expected)
         {
             Assert.Equal(expected, _linesWritten);
+        }
+
+        public void HasOutput(string expectedOutput)
+        {
+            var output = _output.ToString();
+            Assert.Equal(expectedOutput, output);
         }
     }
 }
