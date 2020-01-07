@@ -13,6 +13,10 @@ namespace SimpleConsole.Tests
         private int _linesRead;
         private int _linesWritten;
 
+        public void Initialise(ConsoleOptions options)
+        {
+        }
+
         public string ReadLine()
         {
             if (!_linesToRead.Any())

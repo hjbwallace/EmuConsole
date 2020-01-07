@@ -4,6 +4,12 @@ namespace SimpleConsole
 {
     public class StandardConsole : IConsole
     {
+        public void Initialise(ConsoleOptions options)
+        {
+            if (!string.IsNullOrWhiteSpace(options.Title))
+                Console.Title = options.Title;
+        }
+
         public string ReadLine()
         {
             return Console.ReadLine();

@@ -7,7 +7,12 @@ namespace SimpleConsole.ExampleApp
         private static async Task Main(string[] args)
         {
             var console = new StandardConsole();
-            await new ConsoleApp(console).RunAsync();
+            var options = new ConsoleOptions
+            {
+                Title = "An Example App"
+            };
+
+            await new ConsoleApp(console, options).RunAsync();
         }
     }
 }

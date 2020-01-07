@@ -8,11 +8,15 @@ namespace SimpleConsole
     {
         private readonly IConsole _console;
         private readonly ConsoleCommandCollection _commands;
+        private readonly ConsoleOptions _options;
         private bool _isRunning;
 
-        public ConsoleApp(IConsole console)
+        public ConsoleApp(IConsole console, ConsoleOptions options = null)
         {
-            _console = console;
+            _console = console ?? new StandardConsole();
+            _options = options ?? new ConsoleOptions();
+
+            _console.Initialise(_options);
 
             var baseCommands = new[]
             {
