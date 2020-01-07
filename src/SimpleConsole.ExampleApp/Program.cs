@@ -12,7 +12,7 @@ namespace SimpleConsole.ExampleApp
                 Title = "An Example App"
             };
 
-            await new ConsoleApp(console, options).RunAsync();
+            await new ExampleConsoleApp(console, options).RunAsync();
         }
     }
 }

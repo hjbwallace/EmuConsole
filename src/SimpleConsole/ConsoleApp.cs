@@ -6,9 +6,9 @@ namespace SimpleConsole
 {
     public class ConsoleApp
     {
-        private readonly IConsole _console;
-        private readonly ConsoleCommandCollection _commands;
-        private readonly ConsoleOptions _options;
+        protected readonly IConsole _console;
+        protected readonly ConsoleCommandCollection _commands;
+        protected readonly ConsoleOptions _options;
         private bool _isRunning;
 
         public ConsoleApp(IConsole console, ConsoleOptions options = null)

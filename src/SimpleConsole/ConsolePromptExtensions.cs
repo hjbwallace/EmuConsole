@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SimpleConsole
 {
@@ -36,6 +37,12 @@ namespace SimpleConsole
         {
             var input = console.PromptInput($"{prompt ?? string.Empty} (Y to confirm)").ToUpper();
             return input == "Y";
+        }
+
+        public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source)
+        {
+            var indexCollection = new IndexCollection<T>(source);
+            return indexCollection.GetSelection(console);
         }
     }
 }
