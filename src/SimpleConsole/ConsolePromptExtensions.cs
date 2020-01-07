@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SimpleConsole
@@ -42,6 +43,12 @@ namespace SimpleConsole
         public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source)
         {
             var indexCollection = new IndexCollection<T>(source);
+            return indexCollection.GetSelection(console);
+        }
+
+        public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector)
+        {
+            var indexCollection = new IndexCollection<T>(source, descriptionSelector);
             return indexCollection.GetSelection(console);
         }
     }

@@ -47,7 +47,7 @@ namespace SimpleConsole.ExampleApp
 
         private void OnChooseWord()
         {
-            var word = _console.PromptIndexSelection(_words);
+            var word = _console.PromptIndexSelection(_words, x => x.ToUpper());
             _console.WriteLine($"Selected: {word}");
         }
 

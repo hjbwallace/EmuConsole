@@ -38,8 +38,8 @@ namespace SimpleConsole
         {
             console.WriteLine();
 
-            foreach (var entity in _display)
-                console.WriteLine($"[{entity.Key}] {entity.Description}");
+            foreach (var (Key, Description) in _display)
+                console.WriteLine($"[{Key}] {Description}");
 
             var input = console.PromptInputInt(null, _source.Keys.ToArray());
             return _source[input];
