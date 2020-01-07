@@ -8,7 +8,7 @@ namespace SimpleConsole.ExampleApp
         private readonly string[] _words;
         private int[] _numbers;
 
-        public ExampleConsoleApp(IConsole console, ConsoleOptions options = null)
+        public ExampleConsoleApp(IConsole console = null, ConsoleOptions options = null)
             : base(console, options)
         {
             _words = new[]

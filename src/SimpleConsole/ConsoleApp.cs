@@ -11,22 +11,18 @@ namespace SimpleConsole
         protected readonly ConsoleOptions _options;
         private bool _isRunning;
 
-        public ConsoleApp(IConsole console, ConsoleOptions options = null)
+        public ConsoleApp(IConsole console = null, ConsoleOptions options = null)
         {
             _console = console ?? new StandardConsole();
             _options = options ?? new ConsoleOptions();
 
             _console.Initialise(_options);
 
-            var baseCommands = new[]
-            {
-                GetHelpCommand(),
-                GetExitCommand()
-            };
+            var commands = new[] { GetHelpCommand() }
+                .Concat(GetCommands())
+                .Concat(new[] { GetExitCommand() });
 
-            var allCommands = baseCommands.Concat(GetCommands());
-
-            _commands = new ConsoleCommandCollection(allCommands);
+            _commands = new ConsoleCommandCollection(commands);
         }
 
         public async Task RunAsync()
@@ -42,6 +38,9 @@ namespace SimpleConsole
 
                 _console.WriteLine();
                 await Task.CompletedTask;
+
+                if (_options.AlwaysDisplayCommands && _isRunning)
+                    DisplayAvailableActions();
             }
 
             _console.WriteLine("Closing!");
@@ -49,7 +48,6 @@ namespace SimpleConsole
 
         protected virtual void DisplayHeading()
         {
-            _console.WriteLine("Welcome to a console app!");
         }
 
         protected virtual ConsoleCommand GetHelpCommand()

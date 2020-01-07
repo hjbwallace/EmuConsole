@@ -9,7 +9,8 @@ namespace SimpleConsole.ExampleApp
             var console = new StandardConsole();
             var options = new ConsoleOptions
             {
-                Title = "An Example App"
+                Title = "An Example App",
+                AlwaysDisplayCommands = true
             };
 
             await new ExampleConsoleApp(console, options).RunAsync();
