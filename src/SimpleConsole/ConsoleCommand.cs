@@ -34,11 +34,5 @@ namespace SimpleConsole
         public bool CanExecute() => _canExecute();
 
         public void Execute() => _action();
-
-        public override string ToString()
-        {
-            var keyString = string.Join("|", Keys);
-            return $"[{keyString}] {Description}";
-        }
     }
 }

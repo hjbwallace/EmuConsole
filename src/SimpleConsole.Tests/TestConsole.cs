@@ -13,8 +13,11 @@ namespace SimpleConsole.Tests
         private int _linesRead;
         private int _linesWritten;
 
+        public ConsoleOptions Options { get; private set; } = new ConsoleOptions();
+
         public void Initialise(ConsoleOptions options)
         {
+            Options = options;
         }
 
         public string ReadLine()
@@ -31,13 +34,13 @@ namespace SimpleConsole.Tests
             return line;
         }
 
-        public T Write<T>(T value)
+        public T Write<T>(T value, ConsoleColor? color)
         {
             _output.Append(value);
             return value;
         }
 
-        public T WriteLine<T>(T value)
+        public T WriteLine<T>(T value, ConsoleColor? color)
         {
             _linesWritten++;
             _output.Append(value + Environment.NewLine);

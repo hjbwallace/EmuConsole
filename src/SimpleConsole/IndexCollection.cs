@@ -8,7 +8,7 @@ namespace SimpleConsole
     public class IndexCollection<TEntity>
     {
         private readonly IDictionary<int, TEntity> _source;
-        private readonly ICollection<(string Key, string Description)> _display;
+        private readonly IList<KeyValuePair<string, string>> _display;
 
         public IndexCollection(IEnumerable<TEntity> source)
             : this(source, x => x?.ToString())
@@ -21,25 +21,24 @@ namespace SimpleConsole
                 throw new ArgumentException("Source must be populated");
 
             _source = new ConcurrentDictionary<int, TEntity>();
-            _display = new List<(string, string)>();
+            _display = new List<KeyValuePair<string, string>>();
 
-            var padSize = source.Count().ToString().Length;
+            var length = source.Count();
+            var padSize = length.ToString().Length;
 
-            for (int i = 0; i < source.Count(); i++)
+            for (int i = 0; i < length; i++)
             {
                 var item = source.ElementAt(i);
 
                 _source.Add(i, item);
-                _display.Add((i.ToString().PadLeft(padSize), descriptionSelector(item).ToString()));
+                _display.Add(new KeyValuePair<string, string>(i.ToString().PadLeft(padSize), descriptionSelector(item).ToString()));
             }
         }
 
         public TEntity GetSelection(IConsole console)
         {
             console.WriteLine();
-
-            foreach (var (Key, Description) in _display)
-                console.WriteLine($"[{Key}] {Description}");
+            console.WriteCollection(_display);
 
             var input = console.PromptInputInt(null, _source.Keys.ToArray());
             return _source[input];

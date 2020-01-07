@@ -43,7 +43,7 @@ namespace SimpleConsole
                     DisplayAvailableActions();
             }
 
-            _console.WriteLine("Closing!");
+            _console.WriteWarning("Closing!");
         }
 
         protected virtual void DisplayHeading()
@@ -75,13 +75,8 @@ namespace SimpleConsole
 
         private void DisplayAvailableActions()
         {
-            var availableCommands = _commands.GetAvailableCommands();
-
-            foreach (var command in availableCommands)
-            {
-                _console.Write($"[{string.Join("|", command.Keys)}] ");
-                _console.WriteLine(command.Description);
-            }
+            var commandDictionary = _commands.GetAvailableCommands().ToPrompt();
+            _console.WriteCollection(commandDictionary);
         }
     }
 }

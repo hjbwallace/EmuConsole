@@ -11,7 +11,7 @@ namespace SimpleConsole
             if (!string.IsNullOrWhiteSpace(prompt))
                 console.WriteLine(prompt);
 
-            console.Write("> ");
+            console.WritePrompt();
             var input = console.ReadFormatted();
 
             if (allowed.Any() && !allowed.Contains(input))
@@ -25,7 +25,7 @@ namespace SimpleConsole
             if (!string.IsNullOrWhiteSpace(prompt))
                 console.WriteLine(prompt);
 
-            console.Write("> ");
+            console.WritePrompt();
             var input = console.ReadInt();
 
             if (input == null || (allowed.Any() && !allowed.Contains(input.Value)))
