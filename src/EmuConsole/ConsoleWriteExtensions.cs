@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
-namespace SimpleConsole
+namespace EmuConsole
 {
     public static class ConsoleWriteExtensions
     {
@@ -50,7 +49,7 @@ namespace SimpleConsole
         {
             return console.Write("> ", console.Options.PromptColor);
         }
-        
+
         public static void WriteCollection<TKey, TValue>(this IConsole console, IList<KeyValuePair<TKey, TValue>> collection)
         {
             foreach (var command in collection)

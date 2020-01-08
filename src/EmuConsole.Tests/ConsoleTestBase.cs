@@ -1,4 +1,4 @@
-﻿namespace SimpleConsole.Tests
+﻿namespace EmuConsole.Tests
 {
     public abstract class ConsoleTestBase
     {

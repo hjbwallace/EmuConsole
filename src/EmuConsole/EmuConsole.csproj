@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>SimpleConsole</PackageId>
+    <PackageId>EmuConsole</PackageId>
     <Version>1.0.0</Version>
     <Authors>Harrison Wallace</Authors>
     <PackageTags>Console</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/hjbwallace/SimpleConsole</RepositoryUrl>
+    <RepositoryUrl>https://github.com/hjbwallace/EmuConsole</RepositoryUrl>
     <Description>Framework for building simple console applications</Description>
   </PropertyGroup>
 

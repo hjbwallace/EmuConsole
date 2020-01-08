@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SimpleConsole\SimpleConsole.csproj" />
+    <ProjectReference Include="..\EmuConsole\EmuConsole.csproj" />
   </ItemGroup>
 
 </Project>

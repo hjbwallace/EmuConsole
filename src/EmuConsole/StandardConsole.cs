@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimpleConsole
+namespace EmuConsole
 {
     public class StandardConsole : IConsole
     {

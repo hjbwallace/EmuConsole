@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SimpleConsole.ExampleApp
+namespace EmuConsole.ExampleApp
 {
     public class ExampleConsoleApp : ConsoleApp
     {

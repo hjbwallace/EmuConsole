@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SimpleConsole
+namespace EmuConsole
 {
     public class ConsoleApp
     {

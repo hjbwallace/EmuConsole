@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace SimpleConsole
+namespace EmuConsole
 {
     public static class ConsoleReadExtensions
     {

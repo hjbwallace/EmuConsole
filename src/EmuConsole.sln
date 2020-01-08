@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleConsole", "SimpleConsole\SimpleConsole.csproj", "{99BACF34-7EBA-4A44-AABD-3BB93E2A64A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmuConsole", "EmuConsole\EmuConsole.csproj", "{99BACF34-7EBA-4A44-AABD-3BB93E2A64A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsole.ExampleApp", "SimpleConsole.ExampleApp\SimpleConsole.ExampleApp.csproj", "{12EC8050-E3C4-416F-A34B-CB91FD1F6DF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuConsole.ExampleApp", "EmuConsole.ExampleApp\EmuConsole.ExampleApp.csproj", "{12EC8050-E3C4-416F-A34B-CB91FD1F6DF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsole.Tests", "SimpleConsole.Tests\SimpleConsole.Tests.csproj", "{BE698487-59C4-41C4-9805-6EB3B775CFB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuConsole.Tests", "EmuConsole.Tests\EmuConsole.Tests.csproj", "{BE698487-59C4-41C4-9805-6EB3B775CFB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

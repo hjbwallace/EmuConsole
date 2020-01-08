@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace SimpleConsole.ExampleApp
+namespace EmuConsole.ExampleApp
 {
     internal class Program
     {

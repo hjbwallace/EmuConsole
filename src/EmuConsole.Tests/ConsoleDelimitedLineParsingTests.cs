@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace SimpleConsole.Tests
+namespace EmuConsole.Tests
 {
     public class ConsoleDelimitedLineParsingTests : ConsoleTestBase
     {
