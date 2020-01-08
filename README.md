@@ -1,2 +1,2 @@
 # SimpleConsole
-Build simple console apps in a reactive manner
+Framework for building simple console applications
