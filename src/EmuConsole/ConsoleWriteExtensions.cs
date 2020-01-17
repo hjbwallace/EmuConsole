@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace EmuConsole
 {
@@ -9,6 +10,16 @@ namespace EmuConsole
         public static T WriteLine<T>(this IConsole console, T value) => console.WriteLine(value, null);
 
         public static T Write<T>(this IConsole console, T value) => console.Write(value, null);
+
+        public static T Write<T>(this IConsole console, T value, ConsoleColor? colour)
+        {
+            return console.Write(value, new ConsoleWriteOptions { Foreground = colour });
+        }
+
+        public static T WriteLine<T>(this IConsole console, T value, ConsoleColor? colour)
+        {
+            return console.WriteLine(value, new ConsoleWriteOptions { Foreground = colour });
+        }
 
         public static T WriteLineWarning<T>(this IConsole console, T value)
         {

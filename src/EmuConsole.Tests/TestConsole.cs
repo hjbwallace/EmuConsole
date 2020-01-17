@@ -34,13 +34,13 @@ namespace EmuConsole.Tests
             return line;
         }
 
-        public T Write<T>(T value, ConsoleColor? color)
+        public T Write<T>(T value, ConsoleWriteOptions writeOptions)
         {
             _output.Append(value);
             return value;
         }
 
-        public T WriteLine<T>(T value, ConsoleColor? color)
+        public T WriteLine<T>(T value, ConsoleWriteOptions writeOptions)
         {
             _linesWritten++;
             _output.Append(value + Environment.NewLine);

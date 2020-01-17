@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EmuConsole
+﻿namespace EmuConsole
 {
     public interface IConsole
     {
@@ -8,9 +6,9 @@ namespace EmuConsole
 
         void Initialise(ConsoleOptions options);
 
-        T Write<T>(T value, ConsoleColor? color);
+        T Write<T>(T value, ConsoleWriteOptions writeOptions);
 
-        T WriteLine<T>(T value, ConsoleColor? color);
+        T WriteLine<T>(T value, ConsoleWriteOptions writeOptions);
 
         string ReadLine();
     }

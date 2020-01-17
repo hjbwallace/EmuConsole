@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EmuConsole.ExampleApp
@@ -23,7 +24,14 @@ namespace EmuConsole.ExampleApp
 
         protected override void DisplayHeading()
         {
-            _console.WriteLine("Welcome to the Example Console App!");
+            var headingOptions = new ConsoleWriteOptions
+            {
+                Foreground = ConsoleColor.Black,
+                Background = ConsoleColor.Cyan
+            };
+
+            _console.WriteLine("Welcome to the Example Console App!", headingOptions);
+            _console.WriteLine("Enter one of the available commands to continue");
             _console.WriteLine();
         }
 

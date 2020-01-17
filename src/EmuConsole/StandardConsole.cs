@@ -8,6 +8,8 @@ namespace EmuConsole
     {
         private readonly LinkedList<string> _defaultInputs;
 
+        private ConsoleWriteOptions _promptOptions = new ConsoleWriteOptions();
+
         public StandardConsole(params string[] args)
         {
             _defaultInputs = new LinkedList<string>(args ?? new string[0]);
@@ -17,10 +19,12 @@ namespace EmuConsole
 
         public void Initialise(ConsoleOptions options)
         {
-            Options = options;
+            Options = options ?? throw new ArgumentNullException(nameof(options));
 
             if (!string.IsNullOrWhiteSpace(options.Title))
                 Console.Title = options.Title;
+
+            _promptOptions = new ConsoleWriteOptions { Foreground = options.PromptColor };
         }
 
         public string ReadLine()
@@ -29,31 +33,38 @@ namespace EmuConsole
             {
                 var defaultInput = _defaultInputs.First();
                 _defaultInputs.RemoveFirst();
-                return WriteLine(defaultInput, Options.PromptColor);
+                return this.WriteLine(defaultInput, Options.PromptColor);
             }
 
             var input = string.Empty;
-            ColourAction(Options.PromptColor, () => input = Console.ReadLine());
+            var promptOptions = new ConsoleWriteOptions { Foreground = Options.PromptColor };
+
+            WriteAction(_promptOptions, () => input = Console.ReadLine());
             return input;
         }
 
-        public T Write<T>(T value, ConsoleColor? color)
+        public T Write<T>(T value, ConsoleWriteOptions writeOptions)
         {
-            ColourAction(color, () => Console.Write(value));
+            WriteAction(writeOptions, () => Console.Write(value));
             return value;
         }
 
-        public T WriteLine<T>(T value, ConsoleColor? color)
+        public T WriteLine<T>(T value, ConsoleWriteOptions writeOptions)
         {
-            ColourAction(color, () => Console.WriteLine(value));
+            WriteAction(writeOptions, () => Console.WriteLine(value));
             return value;
         }
 
-        private void ColourAction(ConsoleColor? color, Action action)
+        private void WriteAction(ConsoleWriteOptions writeOptions, Action action)
         {
-            if (color != null)
+            if (writeOptions != null)
             {
-                Console.ForegroundColor = color.Value;
+                if (writeOptions.Foreground != null)
+                    Console.ForegroundColor = writeOptions.Foreground.Value;
+
+                if (writeOptions.Background != null)
+                    Console.BackgroundColor = writeOptions.Background.Value;
+
                 action();
                 Console.ResetColor();
             }
