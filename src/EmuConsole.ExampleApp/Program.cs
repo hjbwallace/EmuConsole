@@ -6,7 +6,7 @@ namespace EmuConsole.ExampleApp
     {
         private static async Task Main(string[] args)
         {
-            var console = new StandardConsole();
+            var console = new StandardConsole(args);
             var options = new ConsoleOptions
             {
                 Title = "An Example App",

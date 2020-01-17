@@ -1,82 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EmuConsole
+﻿namespace EmuConsole
 {
-    public class ConsoleApp
+    public class ConsoleApp : ConsoleProcess
     {
-        protected readonly IConsole _console;
-        protected readonly ConsoleCommandCollection _commands;
-        protected readonly ConsoleOptions _options;
-        private bool _isRunning;
-
-        public ConsoleApp(IConsole console = null, ConsoleOptions options = null)
-        {
-            _console = console ?? new StandardConsole();
-            _options = options ?? new ConsoleOptions();
-
-            _console.Initialise(_options);
-
-            var commands = new[] { GetHelpCommand() }
-                .Concat(GetCommands())
-                .Concat(new[] { GetExitCommand() });
-
-            _commands = new ConsoleCommandCollection(commands);
-        }
-
-        public async Task RunAsync()
-        {
-            _isRunning = true;
-
-            DisplayHeading();
-            DisplayAvailableActions();
-
-            while (_isRunning)
-            {
-                GetInputCommand().Execute();
-
-                _console.WriteLine();
-                await Task.CompletedTask;
-
-                if (_options.AlwaysDisplayCommands && _isRunning)
-                    DisplayAvailableActions();
-            }
-
-            _console.WriteWarning("Closing!");
-        }
-
-        protected virtual void DisplayHeading()
+        public ConsoleApp()
+            : base(new StandardConsole(), new ConsoleOptions())
         {
         }
 
-        protected virtual ConsoleCommand GetHelpCommand()
+        public ConsoleApp(ConsoleOptions options)
+            : base(new StandardConsole(), options)
         {
-            return new ConsoleCommand(new[] { "?", "help" }, "Display available commands", DisplayAvailableActions);
         }
 
-        protected virtual ConsoleCommand GetExitCommand()
+        public ConsoleApp(IConsole console)
+            : base(console, new ConsoleOptions())
         {
-            return new ConsoleCommand(new[] { "x", "exit" }, "Exit the application", () => _isRunning = false);
         }
 
-        protected virtual IEnumerable<ConsoleCommand> GetCommands()
+        public ConsoleApp(IConsole console, ConsoleOptions options)
+            : base(console, options)
         {
-            return new ConsoleCommand[0];
         }
 
-        private ConsoleCommand GetInputCommand()
+        protected override ConsoleCommand GetExitCommand()
         {
-            var input = _console.PromptInput(null);
-            var command = _commands.GetCommandFor(input);
-
-            return command ?? GetInputCommand();
-        }
-
-        private void DisplayAvailableActions()
-        {
-            var commandDictionary = _commands.GetAvailableCommands().ToPrompt();
-            _console.WriteCollection(commandDictionary);
+            return new ConsoleCommand(new[] { "x", "exit" }, "Exit the application", StopRunning);
         }
     }
 }

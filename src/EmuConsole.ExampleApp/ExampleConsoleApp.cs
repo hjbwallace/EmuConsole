@@ -8,7 +8,7 @@ namespace EmuConsole.ExampleApp
         private readonly string[] _words;
         private int[] _numbers;
 
-        public ExampleConsoleApp(IConsole console = null, ConsoleOptions options = null)
+        public ExampleConsoleApp(IConsole console, ConsoleOptions options)
             : base(console, options)
         {
             _words = new[]
@@ -29,12 +29,21 @@ namespace EmuConsole.ExampleApp
 
         protected override IEnumerable<ConsoleCommand> GetCommands()
         {
-            return new[]
-            {
-                new ConsoleCommand(new[] { "w", "words" }, "Display words and then choose one", OnChooseWord),
-                new ConsoleCommand(new[] { "p", "populate" }, "Populate the numbers (only if they arent populated)", OnPopulateNumbers, CanPopulateNumbers),
-                new ConsoleCommand(new[] { "n", "numbers" }, "Display numbers and then choose one", OnChooseNumber, CanChooseNumber)
-            };
+            yield return new ConsoleCommand(new[] { "w", "words" }, "Display words and then choose one", OnChooseWord);
+            yield return new ConsoleCommand(new[] { "p", "populate" }, "Populate the numbers (only if they arent populated)", OnPopulateNumbers, CanPopulateNumbers);
+            yield return new ConsoleCommand(new[] { "n", "numbers" }, "Display numbers and then choose one", OnChooseNumber, CanChooseNumber);
+            yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", new ExampleConsoleProcess(_console, _options));
+            yield return new ConsoleCommand("m", "Enter multiple values in a single action", OnEnterMultiple);
+        }
+
+        private void OnEnterMultiple()
+        {
+            _console.WriteLine("Enter multiple values (comma delimited)");
+            var inputs = _console.ReadDelimitedLine(',');
+
+            _console.WriteLine("Entered the following values:");
+            foreach (var input in inputs)
+                _console.WriteLine($"* {input}");
         }
 
         private bool CanChooseNumber() => _numbers.Any();

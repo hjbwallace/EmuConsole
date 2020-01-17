@@ -14,6 +14,16 @@ namespace EmuConsole
         {
         }
 
+        public ConsoleCommand(string key, string description, ConsoleProcess process, Func<bool> requires = null)
+            : this(new[] { key }, description, process, requires)
+        {
+        }
+
+        public ConsoleCommand(IEnumerable<string> keys, string description, ConsoleProcess process, Func<bool> requires = null)
+            : this(keys, description, () => process.RunAsync().Wait(), requires)
+        {
+        }
+
         public ConsoleCommand(IEnumerable<string> keys, string description, Action action, Func<bool> requires = null)
         {
             if (keys?.Any() != true)
