@@ -34,6 +34,23 @@ namespace EmuConsole
             return input.Value;
         }
 
+        public static int[] PromptInputDelimitedInt(this IConsole console, string prompt, int[] allowed, bool allowEmpty)
+        {
+            if (!string.IsNullOrWhiteSpace(prompt))
+                console.WriteLine(prompt);
+
+            console.WritePrompt();
+            var inputs = console.ReadDelimitedInt();
+
+            if (allowed.Any())
+                inputs = inputs.Intersect(allowed).ToArray();
+
+            if (!allowEmpty && !inputs.Any())
+                return console.PromptInputDelimitedInt(null, allowed, allowEmpty);
+
+            return inputs;
+        }
+
         public static bool PromptConfirm(this IConsole console, string prompt)
         {
             var input = console.PromptInput($"{prompt ?? string.Empty} (Y to confirm)").ToUpper();
@@ -49,6 +66,18 @@ namespace EmuConsole
         public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector)
         {
             var indexCollection = new IndexCollection<T>(source, descriptionSelector);
+            return indexCollection.GetSelection(console);
+        }
+
+        public static T[] PromptMultipleIndexSelection<T>(this IConsole console, IEnumerable<T> source, bool allowEmpty = false)
+        {
+            var indexCollection = new MultipleIndexCollection<T>(source, allowEmpty);
+            return indexCollection.GetSelection(console);
+        }
+
+        public static T[] PromptMultipleIndexSelection<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector, bool allowEmpty = false)
+        {
+            var indexCollection = new MultipleIndexCollection<T>(source, descriptionSelector, allowEmpty);
             return indexCollection.GetSelection(console);
         }
     }

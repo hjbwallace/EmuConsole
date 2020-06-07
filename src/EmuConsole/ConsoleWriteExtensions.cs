@@ -73,5 +73,11 @@ namespace EmuConsole
                 console.WriteLine(command.Value);
             }
         }
+
+        public static IEnumerable<T> WriteLines<T>(this IConsole console, IEnumerable<T> source)
+        {
+            foreach (var value in source)
+                yield return console.WriteLine(value);
+        }
     }
 }
