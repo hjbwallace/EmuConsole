@@ -20,6 +20,20 @@ namespace EmuConsole
             return input;
         }
 
+        public static string PromptOptionalInput(this IConsole console, string prompt, string[] allowed, string defaultValue = null)
+        {
+            if (!string.IsNullOrWhiteSpace(prompt))
+                console.WriteLine(prompt);
+
+            console.WritePrompt();
+            var input = console.ReadFormatted();
+
+            if (allowed.Any() && !allowed.Contains(input))
+                return defaultValue;
+
+            return input;
+        }
+
         public static int PromptInputInt(this IConsole console, string prompt, params int[] allowed)
         {
             if (!string.IsNullOrWhiteSpace(prompt))
@@ -32,6 +46,31 @@ namespace EmuConsole
                 return console.PromptInputInt(null, allowed);
 
             return input.Value;
+        }
+
+        public static int? PromptInputOptionalInt(this IConsole console, string prompt, int[] allowed, int? defaultValue = null)
+        {
+            if (defaultValue.HasValue && !allowed.Contains(defaultValue.Value))
+                throw new ArgumentException("Default value must be included in the allowed values");
+
+            if (!string.IsNullOrWhiteSpace(prompt))
+                console.WriteLine(prompt);
+
+            console.WritePrompt();
+            var input = console.ReadInt();
+
+            if (input.HasValue && allowed.Any() && allowed.Contains(input.Value))
+                return input.Value;
+
+            return defaultValue;
+        }
+
+        private static void WritePromptInternal(IConsole console, string promptMessage, object defaultValue = null)
+        {
+            var prompt = string.Join(" ", new[] { promptMessage, defaultValue?.ToString() }.Where(x => x != null));
+
+            if (!string.IsNullOrWhiteSpace(prompt))
+                console.WriteLine(prompt);
         }
 
         public static int[] PromptInputDelimitedInt(this IConsole console, string prompt, int[] allowed, bool allowEmpty)

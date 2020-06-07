@@ -88,5 +88,69 @@ namespace EmuConsole.Tests
 > 0
 ");
         }
+
+        [Fact]
+        public void CanOptionallySelectEntryFromEnumerable()
+        {
+            _console.AddLinesToRead(20);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, true);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Null(selection);
+
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(4);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> 20
+");
+        }
+
+        [Fact]
+        public void CanOptionallySelectEntryFromEnumerableWithDescriptionFormatting()
+        {
+            _console.AddLinesToRead(20);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, x => x.ToUpper(), true);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Null(selection);
+
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(4);
+            _console.HasOutput($@"
+[0] ONE (0)
+[1] TWO (1)
+[2] THREE (2)
+> 20
+");
+        }
+
+        [Fact]
+        public void CanOptionallySelectEntryFromEnumerableWithDefault()
+        {
+            _console.AddLinesToRead(20);
+
+            var defaultValue = 0;
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, true, defaultValue);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Equal("one (0)", selection);
+
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(4);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> 20
+");
+        }
     }
 }

@@ -9,13 +9,15 @@ namespace EmuConsole
     {
         private readonly IDictionary<int, TEntity> _source;
         private readonly IList<KeyValuePair<string, string>> _display;
+        private readonly bool _isOptional;
+        private readonly int? _defaultValue;
 
-        public IndexCollection(IEnumerable<TEntity> source)
-            : this(source, x => x?.ToString())
+        public IndexCollection(IEnumerable<TEntity> source, bool isOptional = false, int? defaultValue = default)
+            : this(source, x => x?.ToString(), isOptional, defaultValue)
         {
         }
 
-        public IndexCollection(IEnumerable<TEntity> source, Func<TEntity, object> descriptionSelector)
+        public IndexCollection(IEnumerable<TEntity> source, Func<TEntity, object> descriptionSelector, bool isOptional = false, int? defaultValue = default)
         {
             if (!source.Any())
                 throw new ArgumentException("Source must be populated");
@@ -33,6 +35,9 @@ namespace EmuConsole
                 _source.Add(i, item);
                 _display.Add(new KeyValuePair<string, string>(i.ToString().PadLeft(padSize), descriptionSelector(item).ToString()));
             }
+
+            _isOptional = isOptional;
+            _defaultValue = defaultValue;
         }
 
         public TEntity GetSelection(IConsole console)
@@ -40,8 +45,13 @@ namespace EmuConsole
             console.WriteLine();
             console.WriteCollection(_display);
 
-            var input = console.PromptInputInt(null, _source.Keys.ToArray());
-            return _source[input];
+            var keys = _source.Keys.ToArray();
+
+            var input = _isOptional 
+                ? console.PromptInputOptionalInt(null, keys, _defaultValue)
+                : console.PromptInputInt(null, keys);
+
+            return input == null ? default : _source[input.Value];
         }
     }
 }

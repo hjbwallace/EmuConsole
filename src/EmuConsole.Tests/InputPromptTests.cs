@@ -60,6 +60,34 @@ namespace EmuConsole.Tests
 ");
         }
 
+        [Fact]
+        public void CanPromptTheUserForInputOptionalInt()
+        {
+            _console.AddLinesToRead(100);
+            var input = _console.PromptInputOptionalInt("This is the prompt", new int[] { 1, 2, 3 });
+
+            Assert.Null(input);
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(1);
+            _console.HasOutput($@"This is the prompt
+> 100
+");
+        }
+
+        [Fact]
+        public void CanPromptTheUserForInputOptionalIntWithRestrictions()
+        {
+            _console.AddLinesToRead(1, 2, 3);
+            var input = _console.PromptInputOptionalInt("This is the prompt", new[] { 3 });
+
+            Assert.Null(input);
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(1);
+            _console.HasOutput($@"This is the prompt
+> 1
+");
+        }
+
         [Theory]
         [InlineData("y", true)]
         [InlineData("Y", true)]
@@ -75,6 +103,22 @@ namespace EmuConsole.Tests
             _console.HasOutput($@"A confirmation prompt (Y to confirm){Environment.NewLine}> {input}{Environment.NewLine}");
 
             Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public void CanPromptTheUserForInputOptionalIntWithDefault()
+        {
+            _console.AddLinesToRead(100);
+
+            var defaultValue = 1;
+            var input = _console.PromptInputOptionalInt("This is the prompt", new int[] { 1, 2, 3 }, defaultValue);
+
+            Assert.Equal(defaultValue, input);
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(1);
+            _console.HasOutput($@"This is the prompt
+> 100
+");
         }
     }
 }
