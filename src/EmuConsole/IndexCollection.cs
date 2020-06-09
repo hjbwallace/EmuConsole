@@ -48,8 +48,8 @@ namespace EmuConsole
             var keys = _source.Keys.ToArray();
 
             var input = _isOptional 
-                ? console.PromptInputOptionalInt(null, keys, _defaultValue)
-                : console.PromptInputInt(null, keys);
+                ? console.PromptIntOptional(null, keys, _defaultValue)
+                : console.PromptInt(null, keys);
 
             return input == null ? default : _source[input.Value];
         }

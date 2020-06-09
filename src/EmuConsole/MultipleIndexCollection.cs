@@ -43,8 +43,8 @@ namespace EmuConsole
             console.WriteLine();
             console.WriteCollection(_display);
 
-            var inputs = console.PromptInputDelimitedInt(null, _source.Keys.ToArray(), _allowEmpty);
-            return _source.Where(x => inputs.Contains(x.Key)).Select(x => x.Value).ToArray();
+            var inputs = console.PromptInts(null, _source.Keys.ToArray(), _allowEmpty);
+            return inputs.Select(x => _source[x]).ToArray();
         }
     }
 }
