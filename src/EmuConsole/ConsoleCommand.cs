@@ -29,10 +29,16 @@ namespace EmuConsole
             if (keys?.Any() != true)
                 throw new ArgumentException("Must provide keys for the command");
 
+            if (keys.Any(x => x == null))
+                throw new ArgumentException("Null value key provided");
+
             if (string.IsNullOrWhiteSpace(description))
                 throw new ArgumentException("Command description must be populated");
 
-            Keys = keys.OrderBy(x => x.Length).ThenBy(x => x).ToArray();
+            if (action == null)
+                throw new ArgumentException("Console action is invalid");
+
+            Keys = keys.OrderBy(x => x.Length).ThenBy(x => x).Distinct().ToArray();
             Description = description;
             _action = action;
             _canExecute = requires ?? (() => true);

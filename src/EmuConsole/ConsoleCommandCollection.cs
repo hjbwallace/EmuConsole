@@ -20,7 +20,7 @@ namespace EmuConsole
             _keys = new List<string>();
 
             if (commands?.Any() != true)
-                throw new InvalidOperationException("No console commands have been provided");
+                throw new ArgumentException("No console commands have been provided");
 
             foreach (var command in commands)
                 AddCommand(command);
@@ -41,6 +41,9 @@ namespace EmuConsole
 
         private void AddCommand(ConsoleCommand command)
         {
+            if (command == null)
+                throw new ArgumentException("Command is invalid");
+
             if (command.Keys.Intersect(_keys).Any())
                 throw new InvalidOperationException("Cannot add command as there is an existing command with the same key");
 
