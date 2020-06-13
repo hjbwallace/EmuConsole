@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmuConsole.ExampleApp.Processes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,8 +41,9 @@ namespace EmuConsole.ExampleApp
             yield return new ConsoleCommand(new[] { "w", "words" }, "Display words and then choose one", OnChooseWord);
             yield return new ConsoleCommand(new[] { "p", "populate" }, "Populate the numbers (only if they arent populated)", OnPopulateNumbers, CanPopulateNumbers);
             yield return new ConsoleCommand(new[] { "n", "numbers" }, "Display numbers and then choose one", OnChooseNumber, CanChooseNumber);
-            yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", new ExampleConsoleProcess(_console, _options));
+            yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", new ExampleProcess(_console, _options));
             yield return new ConsoleCommand("m", "Enter multiple values in a single action", OnEnterMultiple);
+            yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console, _options));
         }
 
         private void OnEnterMultiple()

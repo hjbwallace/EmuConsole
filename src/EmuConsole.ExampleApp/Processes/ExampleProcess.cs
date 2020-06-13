@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EmuConsole.ExampleApp
+namespace EmuConsole.ExampleApp.Processes
 {
-    public class ExampleConsoleProcess : ConsoleProcess
+    public class ExampleProcess : ConsoleProcess
     {
-        public ExampleConsoleProcess(IConsole console, ConsoleOptions options) : base(console, options)
+        public ExampleProcess(IConsole console, ConsoleOptions options) : base(console, options)
         {
         }
 
