@@ -6,12 +6,13 @@ namespace EmuConsole
 {
     internal static class InternalPromptExtensions
     {
-        public static T PromptInputInternal<T>(
+        public static T PromptValueInternal<T>(
             this IConsole console,
             Func<IConsole, T> inputFunc,
             string promptMessage,
             T[] allowedValues,
             T defaultValue,
+            bool hasDefault,
             bool retry, 
             string promptError = null)
         {
@@ -22,16 +23,17 @@ namespace EmuConsole
             if (input.IsAllowed(allowedValues))
                 return input;
 
-            if (retry)
-                return console.PromptInputInternal(inputFunc, null, allowedValues, defaultValue, retry, string.Format(console.Options.InvalidPromptTemplate ?? "", input?.ToString() ?? "-"));
+            if (hasDefault)
 
-            if (defaultValue != null)
                 return defaultValue;
+
+            if (retry)
+                return console.PromptValueInternal(inputFunc, null, allowedValues, defaultValue, hasDefault, retry, string.Format(console.Options.InvalidPromptTemplate ?? "", input?.ToString() ?? "-"));
 
             return default;
         }
 
-        public static T[] PromptInputsInternal<T>(
+        public static T[] PromptValuesInternal<T>(
             this IConsole console,
             Func<IConsole, T[]> inputFunc,
             string promptMessage,
@@ -48,7 +50,7 @@ namespace EmuConsole
             if (inputs.Any() || allowEmpty)
                 return inputs;
 
-            return console.PromptInputsInternal(inputFunc, null, allowedValues, allowEmpty,
+            return console.PromptValuesInternal(inputFunc, null, allowedValues, allowEmpty,
                 console.Options.InvalidPromptsTemplate);
         }
 

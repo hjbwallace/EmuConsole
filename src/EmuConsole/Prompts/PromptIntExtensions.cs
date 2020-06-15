@@ -6,52 +6,62 @@ namespace EmuConsole
     {
         public static int PromptInt(this IConsole console)
         {
-            return console.PromptInputInternal(
-                a => a.ReadInt(),
+            return console.PromptIntInternal(
                 null,
                 null,
                 null,
-                true).Value;
+                false,
+                true);
         }
 
         public static int PromptInt(this IConsole console, string promptMessage)
         {
-            return console.PromptInputInternal(
-                a => a.ReadInt(),
+            return console.PromptIntInternal(
                 promptMessage,
                 null,
                 null,
-                true).Value;
+                false,
+                true);
         }
 
         public static int PromptInt(this IConsole console, string promptMessage, int defaultValue)
         {
-            return console.PromptInputInternal(
-                a => a.ReadInt(),
+            return console.PromptIntInternal(
                 promptMessage,
                 null,
                 defaultValue,
-                false).Value;
+                true,
+                false);
         }
 
         public static int PromptInt(this IConsole console, string promptMessage, int[] allowedValues)
         {
-            return console.PromptInputInternal(
-                a => a.ReadInt(),
+            return console.PromptIntInternal(
                 promptMessage,
-                allowedValues.AsNullableInts(),
+                allowedValues,
                 null,
-                true).Value;
+                false,
+                true);
         }
 
         public static int PromptInt(this IConsole console, string promptMessage, int[] allowedValues, int defaultValue)
         {
-            return console.PromptInputInternal(
-                a => a.ReadInt(),
+            return console.PromptIntInternal(
                 promptMessage,
-                allowedValues.AsNullableInts(),
+                allowedValues,
                 defaultValue,
-                false).Value;
+                true,
+                false);
+        }
+
+        internal static int PromptIntInternal(this IConsole console, string promptMessage, int[] allowedValues, int? defaultValue, bool hasDefault, bool retry)
+        {
+            return console.PromptIntOptionalInternal(
+                promptMessage,
+                allowedValues,
+                defaultValue,
+                hasDefault,
+                retry).Value;
         }
     }
 }

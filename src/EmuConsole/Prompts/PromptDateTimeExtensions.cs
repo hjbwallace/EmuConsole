@@ -7,52 +7,68 @@ namespace EmuConsole
     {
         public static DateTime PromptDateTime(this IConsole console)
         {
-            return console.PromptInputInternal(
-                a => a.ReadDateTime(),
+            return console.PromptDateTimeInternal(
                 null,
                 null,
                 null,
-                true).Value;
+                false,
+                true);
         }
 
         public static DateTime PromptDateTime(this IConsole console, string promptMessage)
         {
-            return console.PromptInputInternal(
-                a => a.ReadDateTime(),
+            return console.PromptDateTimeInternal(
                 promptMessage,
                 null,
                 null,
-                true).Value;
+                false,
+                true);
         }
 
         public static DateTime PromptDateTime(this IConsole console, string promptMessage, DateTime defaultValue)
         {
-            return console.PromptInputInternal(
-                a => a.ReadDateTime(),
+            return console.PromptDateTimeInternal(
                 promptMessage,
                 null,
                 defaultValue,
-                false).Value;
+                true,
+                false);
         }
 
         public static DateTime PromptDateTime(this IConsole console, string promptMessage, DateTime[] allowedValues)
         {
-            return console.PromptInputInternal(
-                a => a.ReadDateTime(),
+            return console.PromptDateTimeInternal(
                 promptMessage,
-                allowedValues.AsNullableDateTimes(),
+                allowedValues,
                 null,
-                true).Value;
+                false,
+                true);
         }
 
         public static DateTime PromptDateTime(this IConsole console, string promptMessage, DateTime[] allowedValues, DateTime defaultValue)
         {
-            return console.PromptInputInternal(
-                a => a.ReadDateTime(),
+            return console.PromptDateTimeInternal(
                 promptMessage,
-                allowedValues.AsNullableDateTimes(),
+                allowedValues,
                 defaultValue,
-                false).Value;
+                true,
+                false);
+        }
+
+        internal static DateTime PromptDateTimeInternal(
+            this IConsole console,
+            string promptMessage,
+            DateTime[] allowedValues,
+            DateTime? defaultValue,
+            bool hasDefault,
+            bool retry)
+        {
+            return console.PromptDateTimeOptionalInternal(
+                promptMessage,
+                allowedValues,
+                defaultValue,
+                hasDefault,
+                retry).Value;
         }
     }
 }

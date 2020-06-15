@@ -5,41 +5,52 @@
         public static string PromptInput(this IConsole console)
         {
             return console.PromptInputInternal(
-                a => a.ReadFormatted(),
                 null,
                 null,
                 null,
+                false,
                 false);
         }
 
         public static string PromptInput(this IConsole console, string promptMessage)
         {
             return console.PromptInputInternal(
-                a => a.ReadFormatted(),
                 promptMessage,
                 null,
                 null,
+                false,
                 false);
         }
 
         public static string PromptInput(this IConsole console, string promptMessage, string[] allowedValues)
         {
             return console.PromptInputInternal(
-                a => a.ReadFormatted(),
                 promptMessage,
                 allowedValues,
                 null,
+                false,
                 true);
         }
 
         public static string PromptInput(this IConsole console, string promptMessage, string[] allowedValues, string defaultValue)
         {
             return console.PromptInputInternal(
+                promptMessage,
+                allowedValues,
+                defaultValue,
+                true,
+                false);
+        }
+
+        internal static string PromptInputInternal(this IConsole console, string promptMessage, string[] allowedValues, string defaultValue, bool hasDefault, bool retry)
+        {
+            return console.PromptValueInternal(
                 a => a.ReadFormatted(),
                 promptMessage,
                 allowedValues,
                 defaultValue,
-                false);
+                hasDefault,
+                retry);
         }
     }
 }
