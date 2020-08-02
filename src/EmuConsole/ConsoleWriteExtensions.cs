@@ -61,8 +61,11 @@ namespace EmuConsole
             return console.Write("> ", console.Options.PromptColor);
         }
 
-        public static void WriteCollection<TKey, TValue>(this IConsole console, IList<KeyValuePair<TKey, TValue>> collection)
+        public static void WriteCollection<TKey, TValue>(this IConsole console, IList<KeyValuePair<TKey, TValue>> collection, bool writeInline = false)
         {
+            if (collection?.Any() != true)
+                throw new ArgumentException("Collection to display must be populated");
+
             foreach (var command in collection)
             {
                 if (console.Options.HighlightPromptOptions)
@@ -70,9 +73,18 @@ namespace EmuConsole
                 else
                     console.Write($"[{command.Key}] ");
 
-                console.WriteLine(command.Value);
+                if (writeInline)
+                    console.Write(command.Value + " ");
+                else
+                    console.WriteLine(command.Value);
             }
+
+            if (writeInline)
+                console.WriteLine();
         }
+
+        public static void WriteCollection<TKey, TValue>(this IConsole console, IDictionary<TKey, TValue> collection, bool writeInline = false)
+            => console.WriteCollection(collection?.ToArray(), writeInline);
 
         public static IEnumerable<T> WriteLines<T>(this IConsole console, IEnumerable<T> source)
         {

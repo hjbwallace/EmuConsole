@@ -10,7 +10,8 @@ namespace EmuConsole.ExampleApp
             var options = new ConsoleOptions
             {
                 Title = "An Example App",
-                AlwaysDisplayCommands = true
+                AlwaysDisplayCommands = true,
+                WriteCommandsInline = true,
             };
 
             await new ExampleConsoleApp(console, options).RunAsync();

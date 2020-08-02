@@ -10,6 +10,8 @@ namespace EmuConsole
 
         public bool HighlightPromptOptions { get; set; } = true;
 
+        public bool WriteCommandsInline { get; set; } = false;
+
         public ConsoleColor WarningColor { get; set; } = ConsoleColor.Yellow;
 
         public ConsoleColor ErrorColor { get; set; } = ConsoleColor.Red;

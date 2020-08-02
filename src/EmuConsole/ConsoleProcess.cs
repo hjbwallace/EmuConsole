@@ -83,7 +83,7 @@ namespace EmuConsole
         private void DisplayAvailableActions()
         {
             var commandDictionary = _commands.GetAvailableCommands().ToPrompt();
-            _console.WriteCollection(commandDictionary);
+            _console.WriteCollection(commandDictionary, _options.WriteCommandsInline);
         }
     }
 }

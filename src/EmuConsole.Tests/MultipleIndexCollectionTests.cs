@@ -28,6 +28,27 @@ namespace EmuConsole.Tests
         }
 
         [Fact]
+        public void CanSelectEntryFromEnumerableWithInline()
+        {
+            _console.AddLinesToRead(20, 3, 0);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new MultipleIndexCollection<string>(collection, false);
+            var selections = indexCollection.GetSelection(_console, true);
+
+            Assert.Single(selections, "one (0)");
+
+            _console.HasLinesRead(3);
+            _console.HasLinesWritten(2);
+            _console.HasOutput($@"
+[0] one (0) [1] two (1) [2] three (2) 
+> 20
+> 3
+> 0
+");
+        }
+
+        [Fact]
         public void CanSelectMultipleEntriesFromEnumerable()
         {
             _console.AddLinesToRead("20", "3", "0, 1");

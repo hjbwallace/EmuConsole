@@ -38,10 +38,10 @@ namespace EmuConsole
             _allowEmpty = allowEmpty;
         }
 
-        public TEntity[] GetSelection(IConsole console)
+        public TEntity[] GetSelection(IConsole console, bool writeInline = false)
         {
             console.WriteLine();
-            console.WriteCollection(_display);
+            console.WriteCollection(_display, writeInline);
 
             var inputs = console.PromptInts(null, _source.Keys.ToArray(), _allowEmpty);
             return inputs.Select(x => _source[x]).ToArray();
