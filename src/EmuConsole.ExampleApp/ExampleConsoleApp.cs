@@ -1,4 +1,5 @@
 ﻿using EmuConsole.ExampleApp.Processes;
+using EmuConsole.ExampleApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ namespace EmuConsole.ExampleApp
     public class ExampleConsoleApp : ConsoleApp
     {
         private readonly string[] _words;
+        private readonly IGuidGenerator _guidGenerator;
         private int[] _numbers;
 
-        public ExampleConsoleApp(IConsole console, ConsoleOptions options)
+        public ExampleConsoleApp(IConsole console, ConsoleOptions options, IGuidGenerator guidGenerator)
             : base(console, options)
         {
             _words = new[]
@@ -21,6 +23,7 @@ namespace EmuConsole.ExampleApp
             };
 
             _numbers = new int[0];
+            _guidGenerator = guidGenerator;
         }
 
         protected override void DisplayHeading()
@@ -41,7 +44,7 @@ namespace EmuConsole.ExampleApp
             yield return new ConsoleCommand(new[] { "w", "words" }, "Display words and then choose one", OnChooseWord);
             yield return new ConsoleCommand(new[] { "p", "populate" }, "Populate the numbers (only if they arent populated)", OnPopulateNumbers, CanPopulateNumbers);
             yield return new ConsoleCommand(new[] { "n", "numbers" }, "Display numbers and then choose one", OnChooseNumber, CanChooseNumber);
-            yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", new ExampleProcess(_console, _options));
+            yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", new ExampleProcess(_console, _options, _guidGenerator));
             yield return new ConsoleCommand("m", "Enter multiple values in a single action", OnEnterMultiple);
             yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console, _options));
         }

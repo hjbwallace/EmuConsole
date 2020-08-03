@@ -1,12 +1,17 @@
-﻿using System;
+﻿using EmuConsole.ExampleApp.Services;
+using System;
 using System.Collections.Generic;
 
 namespace EmuConsole.ExampleApp.Processes
 {
     public class ExampleProcess : ConsoleProcess
     {
-        public ExampleProcess(IConsole console, ConsoleOptions options) : base(console, options)
+        private readonly IGuidGenerator _guidGenerator;
+
+        public ExampleProcess(IConsole console, ConsoleOptions options, IGuidGenerator guidGenerator) 
+            : base(console, options)
         {
+            _guidGenerator = guidGenerator;
         }
 
         protected override IEnumerable<ConsoleCommand> GetCommands()
@@ -16,7 +21,7 @@ namespace EmuConsole.ExampleApp.Processes
 
         private void OnGenerateGuid()
         {
-            _console.WriteLine($"Generated Guid: {Guid.NewGuid()}");
+            _console.WriteLine($"Generated Guid: {_guidGenerator.Generate()}");
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EmuConsole
@@ -8,8 +7,8 @@ namespace EmuConsole
     public abstract class ConsoleProcess
     {
         protected readonly IConsole _console;
-        protected readonly ConsoleCommandCollection _commands;
         protected readonly ConsoleOptions _options;
+        private ConsoleCommandCollection _commands;
         private bool _isRunning;
 
         public ConsoleProcess(IConsole console, ConsoleOptions options)
@@ -18,17 +17,12 @@ namespace EmuConsole
             _options = options ?? throw new ArgumentNullException(nameof(options));
 
             _console.Initialise(_options);
-
-            var commands = new[] { GetHelpCommand() }
-                .Concat(GetCommands())
-                .Concat(new[] { GetExitCommand() });
-
-            _commands = new ConsoleCommandCollection(commands);
         }
 
         public async Task RunAsync()
         {
             _isRunning = true;
+            _commands = GetCommandCollection();
 
             DisplayHeading();
             DisplayAvailableActions();
@@ -84,6 +78,19 @@ namespace EmuConsole
         {
             var commandDictionary = _commands.GetAvailableCommands().ToPrompt();
             _console.WriteCollection(commandDictionary, _options.WriteCommandsInline);
+        }
+
+        private ConsoleCommandCollection GetCommandCollection()
+        {
+            var commands = new List<ConsoleCommand>();
+
+            if (!_options.AlwaysDisplayCommands)
+                commands.Add(GetHelpCommand());
+
+            commands.AddRange(GetCommands());
+            commands.Add(GetExitCommand());
+
+            return new ConsoleCommandCollection(commands);
         }
     }
 }

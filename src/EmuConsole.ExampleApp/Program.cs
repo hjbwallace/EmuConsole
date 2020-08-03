@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using EmuConsole.ExampleApp.Services;
+using System.Threading.Tasks;
 
 namespace EmuConsole.ExampleApp
 {
@@ -14,7 +15,7 @@ namespace EmuConsole.ExampleApp
                 WriteCommandsInline = true,
             };
 
-            await new ExampleConsoleApp(console, options).RunAsync();
+            await new ExampleConsoleApp(console, options, new GuidGenerator()).RunAsync();
         }
     }
 }
