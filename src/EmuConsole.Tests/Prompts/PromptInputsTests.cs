@@ -111,5 +111,22 @@ namespace EmuConsole.Tests.Prompts
 > test1, test3
 ");
         }
+
+        [Fact]
+        public void PromptInputsWithRestrictionsWithoutEmptyAndTemplate()
+        {
+            _console.AddLinesToRead("test4, test5, test3", "test1, test3");
+            _console.Options.InvalidPromptsTemplate = "INVALID";
+
+            var outputs = _console.PromptInputs(null, new[] { "test1", "test2" }, false);
+
+            Assert.Single(outputs, "test1");
+
+            _console.HasLinesRead(2);
+            _console.HasLinesWritten(0);
+            _console.HasOutput($@"> test4, test5, test3
+[INVALID] > test1, test3
+");
+        }
     }
 }

@@ -89,6 +89,24 @@ namespace EmuConsole.Tests.Prompts
         }
 
         [Fact]
+        public void PromptIntWithRestrictionsAndTemplate()
+        {
+            _console.AddLinesToRead(10, "20a", 30);
+            _console.Options.InvalidPromptTemplate = "INVALID: {0}";
+
+            var output = _console.PromptInt("Prompt message", new[] { 3, 30, 300 });
+
+            Assert.Equal(30, output);
+            _console.HasLinesRead(3);
+            _console.HasLinesWritten(1);
+            _console.HasOutput(@"Prompt message
+> 10
+[INVALID: 10] > 20a
+[INVALID: -] > 30
+");
+        }
+
+        [Fact]
         public void PromptIntWithRestrictionsWithoutMessage()
         {
             _console.AddLinesToRead(10, 20, 30);

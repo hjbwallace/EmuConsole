@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EmuConsole
 {
@@ -56,8 +57,11 @@ namespace EmuConsole
             return console.Write(value, console.Options.HighlightColor);
         }
 
-        public static string WritePrompt(this IConsole console)
+        public static string WritePrompt(this IConsole console, string context = null)
         {
+            if (!string.IsNullOrWhiteSpace(context))
+                console.Write($"[{context}] ", console.Options.ErrorColor);
+
             return console.Write("> ", console.Options.PromptColor);
         }
 

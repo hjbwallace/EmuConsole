@@ -48,6 +48,23 @@ namespace EmuConsole.Tests.Prompts
         }
 
         [Fact]
+        public void PromptInputWithRestrictionsAndInvalidTemplate()
+        {
+            _console.AddLinesToRead("invalid", "valid");
+            _console.Options.InvalidPromptTemplate = "INVALID: {0}";
+
+            var output = _console.PromptInput("This is the prompt", new[] { "valid" });
+
+            Assert.Equal("valid", output);
+            _console.HasLinesRead(2);
+            _console.HasLinesWritten(1);
+            _console.HasOutput($@"This is the prompt
+> invalid
+[INVALID: invalid] > valid
+");
+        }
+
+        [Fact]
         public void PromptInputWithRestrictionsWithoutMessage()
         {
             _console.AddLinesToRead("invalid", "valid");

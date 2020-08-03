@@ -12,9 +12,10 @@ namespace EmuConsole
             string promptMessage,
             T[] allowedValues,
             T defaultValue,
-            bool retry)
+            bool retry, 
+            string promptError = null)
         {
-            console.WritePromptMessage(promptMessage);
+            console.WritePromptMessage(promptMessage, promptError);
 
             var input = inputFunc(console);
 
@@ -22,7 +23,7 @@ namespace EmuConsole
                 return input;
 
             if (retry)
-                return console.PromptInputInternal(inputFunc, null, allowedValues, defaultValue, retry);
+                return console.PromptInputInternal(inputFunc, null, allowedValues, defaultValue, retry, string.Format(console.Options.InvalidPromptTemplate ?? "", input?.ToString() ?? "-"));
 
             if (defaultValue != null)
                 return defaultValue;
@@ -35,9 +36,10 @@ namespace EmuConsole
             Func<IConsole, T[]> inputFunc,
             string promptMessage,
             T[] allowedValues,
-            bool allowEmpty)
+            bool allowEmpty,
+            string promptError = null)
         {
-            console.WritePromptMessage(promptMessage);
+            console.WritePromptMessage(promptMessage, promptError);
 
             var inputs = allowedValues?.Any() == true
                 ? inputFunc(console).Intersect(allowedValues).ToArray()
@@ -46,15 +48,16 @@ namespace EmuConsole
             if (inputs.Any() || allowEmpty)
                 return inputs;
 
-            return console.PromptInputsInternal(inputFunc, null, allowedValues, allowEmpty);
+            return console.PromptInputsInternal(inputFunc, null, allowedValues, allowEmpty,
+                console.Options.InvalidPromptsTemplate);
         }
 
-        private static void WritePromptMessage(this IConsole console, string promptMessage)
+        private static void WritePromptMessage(this IConsole console, string promptMessage, string errorPrompt)
         {
             if (!string.IsNullOrWhiteSpace(promptMessage))
                 console.WriteLine(promptMessage);
 
-            console.WritePrompt();
+            console.WritePrompt(errorPrompt);
         }
 
         private static bool IsAllowed<T>(this T value, IEnumerable<T> allowedValues)

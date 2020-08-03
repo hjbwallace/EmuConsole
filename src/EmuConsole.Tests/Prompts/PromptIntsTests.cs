@@ -52,6 +52,25 @@ namespace EmuConsole.Tests.Prompts
         }
 
         [Fact]
+        public void PromptIntsWithoutEmptyAndTemplate()
+        {
+            _console.AddLinesToRead("", "1, 2");
+            _console.Options.InvalidPromptsTemplate = "INVALID";
+
+            var outputs = _console.PromptInts(false);
+
+            Assert.Contains(1, outputs);
+            Assert.Contains(2, outputs);
+            Assert.Equal(2, outputs.Length);
+
+            _console.HasLinesRead(2);
+            _console.HasLinesWritten(0);
+            _console.HasOutput($@"> {string.Empty}
+[INVALID] > 1, 2
+");
+        }
+
+        [Fact]
         public void PromptIntsWithMessage()
         {
             _console.AddLinesToRead(1);

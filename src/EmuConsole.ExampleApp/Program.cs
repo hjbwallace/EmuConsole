@@ -13,6 +13,8 @@ namespace EmuConsole.ExampleApp
                 Title = "An Example App",
                 AlwaysDisplayCommands = true,
                 WriteCommandsInline = true,
+                InvalidPromptTemplate = "INVALID: {0}",
+                InvalidPromptsTemplate = "INVALID",
             };
 
             await new ExampleConsoleApp(console, options, new GuidGenerator()).RunAsync();
