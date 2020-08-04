@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace EmuConsole.Tests
@@ -51,6 +52,20 @@ namespace EmuConsole.Tests
         }
 
         [Fact]
+        public void ThrowsExceptionWithInvalidTaskFunc()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new ConsoleCommand("key", "Description", (Func<Task>)null));
+        }
+
+        [Fact]
+        public void ThrowsExceptionWithInvalidProcess()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new ConsoleCommand("key", "Description", (ConsoleProcess)null));
+        }
+
+        [Fact]
         public void OnlyAddsDistinctKeys()
         {
             var command = new ConsoleCommand(new[] { "key", "key" }, "Description", () => { });
@@ -63,6 +78,16 @@ namespace EmuConsole.Tests
         {
             var command = new ConsoleCommand(new[] { "key", "KEY", "Key" }, "Description", () => { });
             Assert.Equal(3, command.Keys.Length);
+        }
+
+        [Fact]
+        public void KeysAreOrderedByLengthBeforeContent()
+        {
+            var keys = new[] { "A", "AA", "B", "CC" };
+            var orderedKeys = new[] { "A", "B", "AA", "CC" };
+
+            var command = new ConsoleCommand(keys, "Desc", () => { });
+            Assert.Equal(orderedKeys, command.Keys);
         }
     }
 }

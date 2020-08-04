@@ -29,10 +29,10 @@ namespace EmuConsole
 
             while (_isRunning)
             {
-                GetInputCommand().Execute();
+                var command = GetInputCommand();
+                await command.Execute();
 
                 _console.WriteLine();
-                await Task.CompletedTask;
 
                 if (_options.AlwaysDisplayCommands && _isRunning)
                     DisplayAvailableActions();

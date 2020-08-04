@@ -3,6 +3,8 @@ using EmuConsole.ExampleApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace EmuConsole.ExampleApp
 {
@@ -47,6 +49,7 @@ namespace EmuConsole.ExampleApp
             yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", new ExampleProcess(_console, _options, _guidGenerator));
             yield return new ConsoleCommand("m", "Enter multiple values in a single action", OnEnterMultiple);
             yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console, _options));
+            yield return new ConsoleCommand("g", "Ping Google using an async command", OnPingGoogleAsync);
         }
 
         private void OnEnterMultiple()
@@ -76,5 +79,15 @@ namespace EmuConsole.ExampleApp
         private bool CanPopulateNumbers() => !_numbers.Any();
 
         private void OnPopulateNumbers() => _numbers = Enumerable.Range(1, 5).ToArray();
+
+        private async Task OnPingGoogleAsync()
+        {
+            _console.WriteLine("Pinging the Google homepage");
+
+            using var client = new HttpClient();
+            var response = await client.GetAsync("https://www.google.com");
+
+            _console.WriteLine($"Google returned: {response.StatusCode}");
+        }
     }
 }
