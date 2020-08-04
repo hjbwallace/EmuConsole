@@ -22,8 +22,8 @@ namespace EmuConsole
         public async Task RunAsync(ConsoleOptions options)
         {
             _isRunning = true;
-            _commands = GetCommandCollection();
             _console.Initialise(options ?? _options ?? _console.Options);
+            _commands = GetCommandCollection();
 
             DisplayHeading();
             DisplayAvailableActions();
