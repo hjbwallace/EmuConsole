@@ -51,6 +51,7 @@ namespace EmuConsole.ExampleApp
             yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console));
             yield return new ConsoleCommand("g", "Ping Google using an async command", OnPingGoogleAsync);
             yield return new ConsoleCommand("ex", "Throw an unhandled exception", OnThrowException);
+            yield return new ConsoleCommand("t", "Update the title", OnUpdateTitle);
         }
 
         private void OnEnterMultiple()
@@ -94,6 +95,13 @@ namespace EmuConsole.ExampleApp
         private void OnThrowException()
         {
             throw new Exception("Something has gone terribly wrong");
+        }
+
+        private void OnUpdateTitle()
+        {
+            var title = _console.PromptInput("Enter a new value for the title:");
+
+            _console.Options.Title = title;
         }
     }
 }
