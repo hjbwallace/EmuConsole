@@ -7,22 +7,23 @@ namespace EmuConsole
     public abstract class ConsoleProcess
     {
         protected readonly IConsole _console;
-        protected readonly ConsoleOptions _options;
+        private readonly ConsoleOptions _options;
         private ConsoleCommandCollection _commands;
         private bool _isRunning;
 
-        public ConsoleProcess(IConsole console, ConsoleOptions options)
+        public ConsoleProcess(IConsole console, ConsoleOptions options = null)
         {
             _console = console ?? throw new ArgumentNullException(nameof(console));
-            _options = options ?? throw new ArgumentNullException(nameof(options));
-
-            _console.Initialise(_options);
+            _options = options;
         }
 
-        public async Task RunAsync()
+        public Task RunAsync() => RunAsync(null);
+
+        public async Task RunAsync(ConsoleOptions options)
         {
             _isRunning = true;
             _commands = GetCommandCollection();
+            _console.Initialise(options ?? _options ?? _console.Options);
 
             DisplayHeading();
             DisplayAvailableActions();
@@ -39,9 +40,10 @@ namespace EmuConsole
                     HandleException(ex);
                 }
 
+                _console.Initialise(options ?? _options ?? _console.Options);
                 _console.WriteLine();
 
-                if (_options.AlwaysDisplayCommands && _isRunning)
+                if (_console.Options.AlwaysDisplayCommands && _isRunning)
                     DisplayAvailableActions();
             }
 
@@ -55,6 +57,7 @@ namespace EmuConsole
 
         protected virtual void DisplayHeading()
         {
+            _console.WriteLine();
         }
 
         protected virtual void DisplayClosing()
@@ -89,14 +92,14 @@ namespace EmuConsole
         private void DisplayAvailableActions()
         {
             var commandDictionary = _commands.GetAvailableCommands().ToPrompt();
-            _console.WriteCollection(commandDictionary, _options.WriteCommandsInline);
+            _console.WriteCollection(commandDictionary, _console.Options.WriteCommandsInline);
         }
 
         private ConsoleCommandCollection GetCommandCollection()
         {
             var commands = new List<ConsoleCommand>();
 
-            if (!_options.AlwaysDisplayCommands)
+            if (!_console.Options.AlwaysDisplayCommands)
                 commands.Add(GetHelpCommand());
 
             commands.AddRange(GetCommands());

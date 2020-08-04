@@ -21,12 +21,22 @@ namespace EmuConsole
         }
 
         public ConsoleCommand(string key, string description, ConsoleProcess process, Func<bool> requires = null)
-            : this(new[] { key }, description, process, requires)
+            : this(key, description, process, null, requires)
         {
         }
 
         public ConsoleCommand(IEnumerable<string> keys, string description, ConsoleProcess process, Func<bool> requires = null)
-            : this(keys, description, ConvertProcess(process), requires)
+            : this(keys, description, process, null, requires)
+        {
+        }
+
+        public ConsoleCommand(string key, string description, ConsoleProcess process, ConsoleOptions options, Func<bool> requires = null)
+            : this(new[] { key }, description, process, options, requires)
+        {
+        }
+
+        public ConsoleCommand(IEnumerable<string> keys, string description, ConsoleProcess process, ConsoleOptions options, Func<bool> requires = null)
+            : this(keys, description, ConvertProcess(process, options), requires)
         {
         }
 
@@ -75,11 +85,11 @@ namespace EmuConsole
             };
         }
 
-        private static Func<Task> ConvertProcess(ConsoleProcess process)
+        private static Func<Task> ConvertProcess(ConsoleProcess process, ConsoleOptions options)
         {
             return process == null 
-                ? (Func<Task>)null 
-                : (() => process.RunAsync());
+                ? (Func<Task>)null
+                : (() => process.RunAsync(options));
         }
     }
 }

@@ -15,7 +15,7 @@ namespace EmuConsole
             _defaultInputs = new LinkedList<string>(args ?? new string[0]);
         }
 
-        public ConsoleOptions Options { get; private set; }
+        public ConsoleOptions Options { get; private set; } = new ConsoleOptions();
 
         public void Initialise(ConsoleOptions options)
         {

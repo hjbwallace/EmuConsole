@@ -5,7 +5,7 @@ namespace EmuConsole.ExampleApp.Processes
 {
     public class PromptProcess : ConsoleProcess
     {
-        public PromptProcess(IConsole console, ConsoleOptions options)
+        public PromptProcess(IConsole console, ConsoleOptions options = null)
             : base(console, options)
         {
         }

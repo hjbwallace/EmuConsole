@@ -1,4 +1,6 @@
-﻿using EmuConsole.ExampleApp.Services;
+﻿using EmuConsole.ExampleApp.Processes;
+using EmuConsole.ExampleApp.Services;
+using System;
 using System.Threading.Tasks;
 
 namespace EmuConsole.ExampleApp
@@ -17,7 +19,25 @@ namespace EmuConsole.ExampleApp
                 InvalidPromptsTemplate = "INVALID",
             };
 
-            await new ExampleConsoleApp(console, options, new GuidGenerator()).RunAsync();
+            var exampleProcess = BuildExampleProcess(console);
+
+            await new ExampleConsoleApp(console, options, exampleProcess).RunAsync();
+        }
+
+        private static ExampleProcess BuildExampleProcess(IConsole console)
+        {
+            var options = new ConsoleOptions
+            {
+                Title = "An example process within the app",
+                AlwaysDisplayCommands = false,
+                WriteCommandsInline = false,
+                InvalidPromptTemplate = "INVALID: {0}",
+                InvalidPromptsTemplate = "INVALID",
+                PromptColor = ConsoleColor.Green,
+                HighlightColor = ConsoleColor.Yellow,
+            };
+
+            return new ExampleProcess(console, options, new GuidGenerator());
         }
     }
 }

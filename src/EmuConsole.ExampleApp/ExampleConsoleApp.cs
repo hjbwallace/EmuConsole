@@ -11,10 +11,10 @@ namespace EmuConsole.ExampleApp
     public class ExampleConsoleApp : ConsoleApp
     {
         private readonly string[] _words;
-        private readonly IGuidGenerator _guidGenerator;
+        private readonly ExampleProcess _exampleProcess;
         private int[] _numbers;
 
-        public ExampleConsoleApp(IConsole console, ConsoleOptions options, IGuidGenerator guidGenerator)
+        public ExampleConsoleApp(IConsole console, ConsoleOptions options, ExampleProcess exampleProcess)
             : base(console, options)
         {
             _words = new[]
@@ -25,7 +25,7 @@ namespace EmuConsole.ExampleApp
             };
 
             _numbers = new int[0];
-            _guidGenerator = guidGenerator;
+            _exampleProcess = exampleProcess;
         }
 
         protected override void DisplayHeading()
@@ -46,9 +46,9 @@ namespace EmuConsole.ExampleApp
             yield return new ConsoleCommand(new[] { "w", "words" }, "Display words and then choose one", OnChooseWord);
             yield return new ConsoleCommand(new[] { "p", "populate" }, "Populate the numbers (only if they arent populated)", OnPopulateNumbers, CanPopulateNumbers);
             yield return new ConsoleCommand(new[] { "n", "numbers" }, "Display numbers and then choose one", OnChooseNumber, CanChooseNumber);
-            yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", new ExampleProcess(_console, _options, _guidGenerator));
+            yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", _exampleProcess);
             yield return new ConsoleCommand("m", "Enter multiple values in a single action", OnEnterMultiple);
-            yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console, _options));
+            yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console));
             yield return new ConsoleCommand("g", "Ping Google using an async command", OnPingGoogleAsync);
             yield return new ConsoleCommand("ex", "Throw an unhandled exception", OnThrowException);
         }
