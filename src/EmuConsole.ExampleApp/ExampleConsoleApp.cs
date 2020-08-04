@@ -50,6 +50,7 @@ namespace EmuConsole.ExampleApp
             yield return new ConsoleCommand("m", "Enter multiple values in a single action", OnEnterMultiple);
             yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console, _options));
             yield return new ConsoleCommand("g", "Ping Google using an async command", OnPingGoogleAsync);
+            yield return new ConsoleCommand("ex", "Throw an unhandled exception", OnThrowException);
         }
 
         private void OnEnterMultiple()
@@ -88,6 +89,11 @@ namespace EmuConsole.ExampleApp
             var response = await client.GetAsync("https://www.google.com");
 
             _console.WriteLine($"Google returned: {response.StatusCode}");
+        }
+
+        private void OnThrowException()
+        {
+            throw new Exception("Something has gone terribly wrong");
         }
     }
 }

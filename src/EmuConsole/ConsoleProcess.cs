@@ -29,8 +29,15 @@ namespace EmuConsole
 
             while (_isRunning)
             {
-                var command = GetInputCommand();
-                await command.Execute();
+                try
+                {
+                    var command = GetInputCommand();
+                    await command.Execute();
+                }
+                catch (Exception ex)
+                {
+                    HandleException(ex);
+                }
 
                 _console.WriteLine();
 
@@ -39,6 +46,11 @@ namespace EmuConsole
             }
 
             DisplayClosing();
+        }
+
+        protected virtual void HandleException(Exception ex)
+        {
+            _console.WriteException(ex);
         }
 
         protected virtual void DisplayHeading()

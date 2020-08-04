@@ -95,5 +95,18 @@ namespace EmuConsole
             foreach (var value in source)
                 yield return console.WriteLine(value);
         }
+
+        public static TException WriteException<TException>(this IConsole console, TException ex) where TException : Exception
+            => console.WriteException(null, ex);
+
+        public static TException WriteException<TException>(this IConsole console, string message, TException ex) where TException : Exception
+        {
+            if (!string.IsNullOrWhiteSpace(message))
+                console.WriteLineError(message);
+
+            console.WriteLineError($"[{ex.GetType().Name}]: {ex.Message}");
+            console.WriteLineError(ex.StackTrace);
+            return ex;
+        }
     }
 }
