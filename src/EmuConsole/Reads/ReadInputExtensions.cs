@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using EmuConsole.Extensions;
+using System.Linq;
 
 namespace EmuConsole
 {
@@ -13,7 +14,7 @@ namespace EmuConsole
         {
             var input = console.ReadFormatted();
             return input.Split(delimiter)
-                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .WherePopulated()
                 .Select(x => x.Trim())
                 .ToArray();
         }
