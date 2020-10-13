@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Xunit;
 
-namespace EmuConsole.Tests
+namespace EmuConsole.Tests.Collections
 {
     public class IndexCollectionTests : ConsoleTestBase
     {

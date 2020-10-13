@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace EmuConsole.Tests
+namespace EmuConsole.Tests.Collections
 {
     public class MultipleIndexCollectionTests : ConsoleTestBase
     {
