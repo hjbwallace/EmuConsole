@@ -49,6 +49,7 @@ namespace EmuConsole.ExampleApp
             yield return new ConsoleCommand(new[] { "c", "command" }, "Run a different console process", _exampleProcess);
             yield return new ConsoleCommand("m", "Enter multiple values in a single action", OnEnterMultiple);
             yield return new ConsoleCommand("i", "Run the prompt process", new PromptProcess(_console));
+            yield return new ConsoleCommand("col", "Run the prompt process for collections", new PromptCollectionProcess(_console));
             yield return new ConsoleCommand("g", "Ping Google using an async command", OnPingGoogleAsync);
             yield return new ConsoleCommand("ex", "Throw an unhandled exception", OnThrowException);
             yield return new ConsoleCommand("t", "Update the title", OnUpdateTitle);

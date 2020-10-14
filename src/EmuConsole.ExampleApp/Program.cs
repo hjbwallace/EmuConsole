@@ -14,7 +14,7 @@ namespace EmuConsole.ExampleApp
             {
                 Title = "An Example App",
                 AlwaysDisplayCommands = true,
-                WriteCommandsInline = true,
+                WriteCommandsInline = false,
                 InvalidPromptTemplate = "INVALID: {0}",
                 InvalidPromptsTemplate = "INVALID",
             };
