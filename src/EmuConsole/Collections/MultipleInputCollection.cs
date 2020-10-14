@@ -16,10 +16,10 @@ namespace EmuConsole
             _allowEmpty = allowEmpty;
         }
 
-        public TEntity[] GetSelection(IConsole console, bool writeInline = false)
+        public TEntity[] GetSelection(IConsole console, CollectionWriteStyle style)
         {
             console.WriteLine();
-            console.WriteCollection(_display, writeInline);
+            console.WriteCollection(_display, style);
 
             var inputs = console.PromptInputs(null, _source.Keys.ToArray(), _allowEmpty);
             return inputs.Select(x => _source[x]).ToArray();

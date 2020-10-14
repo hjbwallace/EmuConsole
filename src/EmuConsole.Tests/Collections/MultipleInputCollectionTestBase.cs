@@ -18,7 +18,7 @@ namespace EmuConsole.Tests.Collections
                 ["Third"] = "Number 3",
             };
 
-            var selections = GetSelections(dictionary, writeInline: false);
+            var selections = GetSelections(dictionary, style: CollectionWriteStyle.Rows);
 
             Assert.Single(selections, "Number 1");
 
@@ -46,14 +46,14 @@ namespace EmuConsole.Tests.Collections
                 ["Third"] = "Number 3",
             };
 
-            var selections = GetSelections(dictionary, writeInline: true);
+            var selections = GetSelections(dictionary, style: CollectionWriteStyle.Inline);
 
             Assert.Single(selections, "Number 1");
 
             _console.HasLinesRead(3);
             _console.HasLinesWritten(2);
             _console.HasOutput($@"
-[First] Number 1 [Second] Number 2 [Third] Number 3 
+[First] Number 1 [Second] Number 2 [Third] Number 3
 > 20
 > 3
 > First
@@ -181,6 +181,6 @@ namespace EmuConsole.Tests.Collections
         protected abstract string[] GetSelections(IDictionary<object, string> source,
                                                   Func<object, string, object> descriptionSelector = null,
                                                   bool allowEmpty = false,
-                                                  bool writeInline = false);
+                                                  CollectionWriteStyle style = CollectionWriteStyle.Rows);
     }
 }

@@ -54,7 +54,7 @@ namespace EmuConsole.Tests.Collections
             _console.HasLinesRead(3);
             _console.HasLinesWritten(2);
             _console.HasOutput($@"
-[First] Number 1 [Second] Number 2 [Third] Number 3 
+[First] Number 1 [Second] Number 2 [Third] Number 3
 > 20
 > 3
 > First

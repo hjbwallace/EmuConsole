@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace EmuConsole
@@ -7,7 +8,6 @@ namespace EmuConsole
     public class StandardConsole : IConsole
     {
         private readonly LinkedList<string> _defaultInputs;
-
         private ConsoleWriteOptions _promptOptions = new ConsoleWriteOptions();
 
         public StandardConsole(params string[] args)
@@ -17,12 +17,20 @@ namespace EmuConsole
 
         public ConsoleOptions Options { get; private set; } = new ConsoleOptions();
 
+        public Size Dimensions { get; private set; }
+
         public void Initialise(ConsoleOptions options)
         {
             Options = options ?? throw new ArgumentNullException(nameof(options));
 
             if (!string.IsNullOrWhiteSpace(options.Title))
                 Console.Title = options.Title;
+
+            Dimensions = new Size
+            {
+                Height = Console.WindowHeight,
+                Width = Console.WindowWidth,
+            };
 
             _promptOptions = new ConsoleWriteOptions { Foreground = options.PromptColor };
         }

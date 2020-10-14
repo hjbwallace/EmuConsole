@@ -1,8 +1,12 @@
-﻿namespace EmuConsole
+﻿using System.Drawing;
+
+namespace EmuConsole
 {
     public interface IConsole
     {
         ConsoleOptions Options { get; }
+
+        Size Dimensions { get; }
 
         void Initialise(ConsoleOptions options);
 

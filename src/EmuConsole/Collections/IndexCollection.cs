@@ -40,10 +40,10 @@ namespace EmuConsole
             _defaultValue = defaultValue;
         }
 
-        public TEntity GetSelection(IConsole console, bool writeInline = false)
+        public TEntity GetSelection(IConsole console, CollectionWriteStyle style)
         {
             console.WriteLine();
-            console.WriteCollection(_display, writeInline);
+            console.WriteCollection(_display, style);
 
             var keys = _source.Keys.ToArray();
 

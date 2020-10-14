@@ -8,20 +8,20 @@ namespace EmuConsole
         public static T PromptInputSelection<T>(this IConsole console,
                                                 IDictionary<object, T> source,
                                                 Func<object, T, object> descriptionSelector = null,
-                                                bool writeInline = false)
+                                                CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
             var indexCollection = new InputCollection<T>(source, descriptionSelector);
-            return indexCollection.GetSelection(console, writeInline);
+            return indexCollection.GetSelection(console, style);
         }
 
         public static T[] PromptInputSelections<T>(this IConsole console,
                                                    IDictionary<object, T> source,
                                                    Func<object, T, object> descriptionSelector = null,
                                                    bool allowEmpty = false,
-                                                   bool writeInline = false)
+                                                   CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
             var indexCollection = new MultipleInputCollection<T>(source, descriptionSelector, allowEmpty);
-            return indexCollection.GetSelection(console, writeInline);
+            return indexCollection.GetSelection(console, style);
         }
     }
 }

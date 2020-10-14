@@ -9,9 +9,9 @@ namespace EmuConsole.Tests.Prompts
         protected override string[] GetSelections(IDictionary<object, string> source,
                                                   Func<object, string, object> descriptionSelector = null,
                                                   bool allowEmpty = false,
-                                                  bool writeInline = false)
+                                                  CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
-            return _console.PromptInputSelections(source, descriptionSelector, allowEmpty, writeInline);
+            return _console.PromptInputSelections(source, descriptionSelector, allowEmpty, style);
         }
     }
 }

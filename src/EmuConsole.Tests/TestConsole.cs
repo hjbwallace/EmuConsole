@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -14,6 +15,7 @@ namespace EmuConsole.Tests
         private int _linesWritten;
 
         public ConsoleOptions Options { get; private set; } = new ConsoleOptions();
+        public Size Dimensions { get; set; }
 
         public void Initialise(ConsoleOptions options)
         {

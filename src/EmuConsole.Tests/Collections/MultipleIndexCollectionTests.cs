@@ -41,7 +41,7 @@ namespace EmuConsole.Tests.Collections
             _console.HasLinesRead(3);
             _console.HasLinesWritten(2);
             _console.HasOutput($@"
-[0] one (0) [1] two (1) [2] three (2) 
+[0] one (0) [1] two (1) [2] three (2)
 > 20
 > 3
 > 0

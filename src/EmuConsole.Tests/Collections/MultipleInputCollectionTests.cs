@@ -8,10 +8,10 @@ namespace EmuConsole.Tests.Collections
         protected override string[] GetSelections(IDictionary<object, string> source,
                                                   Func<object, string, object> descriptionSelector = null,
                                                   bool allowEmpty = false,
-                                                  bool writeInline = false)
+                                                  CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
             var collection = new MultipleInputCollection<string>(source, descriptionSelector, allowEmpty);
-            return collection.GetSelection(_console, writeInline);
+            return collection.GetSelection(_console, style);
         }
     }
 }

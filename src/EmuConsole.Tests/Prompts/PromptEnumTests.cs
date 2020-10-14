@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Xunit;
+﻿using Xunit;
 
 namespace EmuConsole.Tests.Prompts
 {
@@ -41,7 +40,7 @@ namespace EmuConsole.Tests.Prompts
             _console.HasLinesRead(3);
             _console.HasLinesWritten(2);
             _console.HasOutput($@"
-[0] Value1 [1] Value2 
+[0] Value1 [1] Value2
 > 20
 > 3
 > 0

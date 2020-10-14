@@ -34,7 +34,7 @@ namespace EmuConsole.Tests
             };
 
             _console.WriteCollection(collection, true);
-            _console.HasOutput($@"[A] Value A [B] Value B [C] Value C 
+            _console.HasOutput($@"[A] Value A [B] Value B [C] Value C
 ");
         }
 
