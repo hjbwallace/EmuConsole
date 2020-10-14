@@ -46,5 +46,11 @@ namespace EmuConsole
             var indexCollection = new MultipleIndexCollection<T>(source, descriptionSelector, allowEmpty);
             return indexCollection.GetSelection(console, style);
         }
+
+        public static T[] PromptIndexSelections<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector, bool allowEmpty = false, bool writeInline = false)
+        {
+            var indexCollection = new MultipleIndexCollection<T>(source, descriptionSelector, allowEmpty);
+            return indexCollection.GetSelection(console, writeInline);
+        }
     }
 }
