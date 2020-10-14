@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace EmuConsole.Tests.Collections
@@ -17,8 +18,7 @@ namespace EmuConsole.Tests.Collections
                 ["Third"] = "Number 3",
             };
 
-            var collection = new InputCollection<string>(dictionary);
-            var selection = collection.GetSelection(_console, false);
+            var selection = GetSelection(dictionary, style: CollectionWriteStyle.Rows);
 
             Assert.Equal("Number 1", selection);
 
@@ -39,15 +39,14 @@ namespace EmuConsole.Tests.Collections
         {
             _console.AddLinesToRead("20", "3", "First");
 
-            var dictionary = new Dictionary<object, string>
+            var dictionary = new Dictionary<string, string>
             {
                 ["First"] = "Number 1",
                 ["Second"] = "Number 2",
                 ["Third"] = "Number 3",
             };
 
-            var collection = new InputCollection<string>(dictionary);
-            var selection = collection.GetSelection(_console, true);
+            var selection = GetSelection(dictionary, style: CollectionWriteStyle.Inline);
 
             Assert.Equal("Number 1", selection);
 
@@ -73,8 +72,7 @@ namespace EmuConsole.Tests.Collections
                 ["Third"] = "Number 3",
             };
 
-            var collection = new InputCollection<string>(dictionary, (key, value) => value?.ToUpper());
-            var selection = collection.GetSelection(_console, false);
+            var selection = GetSelection(dictionary, (key, value) => value?.ToUpper());
 
             Assert.Equal("Number 1", selection);
 
@@ -102,8 +100,7 @@ namespace EmuConsole.Tests.Collections
                 ["Third"] = "Number 3",
             };
 
-            var collection = new InputCollection<string>(dictionary, isOptional: true);
-            var selection = collection.GetSelection(_console, false);
+            var selection = GetSelection(dictionary, isOptional: true);
 
             Assert.Null(selection);
 
@@ -129,8 +126,7 @@ namespace EmuConsole.Tests.Collections
                 ["Third"] = "Number 3",
             };
 
-            var collection = new InputCollection<string>(dictionary, (key, value) => value.ToUpper(), isOptional: true);
-            var selection = collection.GetSelection(_console, false);
+            var selection = GetSelection(dictionary, (key, value) => value.ToUpper(), isOptional: true);
 
             Assert.Null(selection);
 
@@ -156,8 +152,7 @@ namespace EmuConsole.Tests.Collections
                 ["Third"] = "Number 3",
             };
 
-            var collection = new InputCollection<string>(dictionary, isOptional: true, defaultValue: "First");
-            var selection = collection.GetSelection(_console, false);
+            var selection = GetSelection(dictionary, isOptional: true, defaultValue: "First");
 
             Assert.Equal("Number 1", selection);
 
@@ -169,6 +164,17 @@ namespace EmuConsole.Tests.Collections
 [Third] Number 3
 > 20
 ");
+        }
+
+        protected TValue GetSelection<TKey, TValue>(
+            IDictionary<TKey, TValue> source,
+            Func<TKey, TValue, object> descriptionSelector = null,
+            bool isOptional = false,
+            string defaultValue = default,
+            CollectionWriteStyle style = CollectionWriteStyle.Rows)
+        {
+            var collection = new InputCollection<TKey, TValue>(source, descriptionSelector, isOptional, defaultValue);
+            return collection.GetSelection(_console, style);
         }
     }
 }

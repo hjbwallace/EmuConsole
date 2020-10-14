@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace EmuConsole
 {
-    public class MultipleInputCollection<TEntity> : InputCollectionBase<TEntity>
+    public class MultipleInputCollection<TKey, TEntity> : InputCollectionBase<TKey, TEntity>
     {
         private readonly bool _allowEmpty;
 
-        public MultipleInputCollection(IDictionary<object, TEntity> source,
-                                       Func<object, TEntity, object> descriptionSelector = null,
+        public MultipleInputCollection(IDictionary<TKey, TEntity> source,
+                                       Func<TKey, TEntity, object> descriptionSelector = null,
                                        bool allowEmpty = false)
             : base(source, descriptionSelector)
         {

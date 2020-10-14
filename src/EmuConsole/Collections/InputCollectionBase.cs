@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace EmuConsole
 {
-    public abstract class InputCollectionBase<TEntity>
+    public abstract class InputCollectionBase<TKey, TEntity>
     {
         protected readonly IDictionary<string, TEntity> _source;
         protected readonly IList<KeyValuePair<string, string>> _display;
 
-        public InputCollectionBase(IDictionary<object, TEntity> source, Func<object, TEntity, object> descriptionSelector)
+        public InputCollectionBase(IDictionary<TKey, TEntity> source, Func<TKey, TEntity, object> descriptionSelector)
         {
             if (!source.Any())
                 throw new ArgumentException("Source must be populated");

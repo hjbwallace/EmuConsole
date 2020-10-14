@@ -10,7 +10,7 @@ namespace EmuConsole.Tests.Collections
                                                   bool allowEmpty = false,
                                                   CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
-            var collection = new MultipleInputCollection<string>(source, descriptionSelector, allowEmpty);
+            var collection = new MultipleInputCollection<object, string>(source, descriptionSelector, allowEmpty);
             return collection.GetSelection(_console, style);
         }
     }

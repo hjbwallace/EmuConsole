@@ -5,22 +5,24 @@ namespace EmuConsole
 {
     public static class PromptInputSelectionExtensions
     {
-        public static T PromptInputSelection<T>(this IConsole console,
-                                                IDictionary<object, T> source,
-                                                Func<object, T, object> descriptionSelector = null,
-                                                CollectionWriteStyle style = CollectionWriteStyle.Rows)
+        public static TValue PromptInputSelection<TKey, TValue>(
+            this IConsole console,
+            IDictionary<TKey, TValue> source,
+            Func<TKey, TValue, object> descriptionSelector = null,
+            CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
-            var indexCollection = new InputCollection<T>(source, descriptionSelector);
+            var indexCollection = new InputCollection<TKey, TValue>(source, descriptionSelector);
             return indexCollection.GetSelection(console, style);
         }
 
-        public static T[] PromptInputSelections<T>(this IConsole console,
-                                                   IDictionary<object, T> source,
-                                                   Func<object, T, object> descriptionSelector = null,
-                                                   bool allowEmpty = false,
-                                                   CollectionWriteStyle style = CollectionWriteStyle.Rows)
+        public static TValue[] PromptInputSelections<TKey, TValue>(
+            this IConsole console,
+            IDictionary<TKey, TValue> source,
+            Func<TKey, TValue, object> descriptionSelector = null,
+            bool allowEmpty = false,
+            CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
-            var indexCollection = new MultipleInputCollection<T>(source, descriptionSelector, allowEmpty);
+            var indexCollection = new MultipleInputCollection<TKey, TValue>(source, descriptionSelector, allowEmpty);
             return indexCollection.GetSelection(console, style);
         }
     }

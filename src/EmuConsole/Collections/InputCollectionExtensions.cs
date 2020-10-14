@@ -2,13 +2,13 @@
 {
     public static class InputCollectionExtensions
     {
-        public static TEntity GetSelection<TEntity>(this InputCollection<TEntity> collection, IConsole console, bool writeInline = false)
+        public static TValue GetSelection<TKey, TValue>(this InputCollection<TKey, TValue> collection, IConsole console, bool writeInline = false)
         {
             return collection.GetSelection(console,
                 writeInline ? CollectionWriteStyle.Inline : CollectionWriteStyle.Rows);
         }
 
-        public static TEntity[] GetSelection<TEntity>(this MultipleInputCollection<TEntity> collection, IConsole console, bool writeInline = false)
+        public static TValue[] GetSelection<TKey, TValue>(this MultipleInputCollection<TKey, TValue> collection, IConsole console, bool writeInline = false)
         {
             return collection.GetSelection(console,
                 writeInline ? CollectionWriteStyle.Inline : CollectionWriteStyle.Rows);

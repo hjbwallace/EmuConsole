@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace EmuConsole
 {
-    public class InputCollection<TEntity> : InputCollectionBase<TEntity>
+    public class InputCollection<TKey, TEntity> : InputCollectionBase<TKey, TEntity>
     {
         private readonly bool _isOptional;
         private readonly string _defaultValue;
 
-        public InputCollection(IDictionary<object, TEntity> source,
-                               Func<object, TEntity, object> descriptionSelector = null,
+        public InputCollection(IDictionary<TKey, TEntity> source,
+                               Func<TKey, TEntity, object> descriptionSelector = null,
                                bool isOptional = false,
                                string defaultValue = default)
             : base(source, descriptionSelector)
