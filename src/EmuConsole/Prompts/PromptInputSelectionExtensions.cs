@@ -9,9 +9,10 @@ namespace EmuConsole
             this IConsole console,
             IDictionary<TKey, TValue> source,
             Func<TKey, TValue, object> descriptionSelector = null,
+            bool isOptional = false,
             CollectionWriteStyle style = CollectionWriteStyle.Rows)
         {
-            var indexCollection = new InputCollection<TKey, TValue>(source, descriptionSelector);
+            var indexCollection = new InputCollection<TKey, TValue>(source, descriptionSelector, isOptional);
             return indexCollection.GetSelection(console, style);
         }
 

@@ -14,7 +14,7 @@ namespace EmuConsole.Tests.Prompts
         public void CanSelectEntryFromEnum()
         {
             _console.AddLinesToRead(20, 3, 0);
-            var result = _console.PromptEnumIndexSelection<TestEnum>(false);
+            var result = _console.PromptIndexSelection<TestEnum>(CollectionWriteStyle.Rows);
 
             Assert.Equal(TestEnum.Value1, result);
 
@@ -33,7 +33,7 @@ namespace EmuConsole.Tests.Prompts
         public void CanSelectEntryFromEnumWithInline()
         {
             _console.AddLinesToRead(20, 3, 0);
-            var result = _console.PromptEnumIndexSelection<TestEnum>(true);
+            var result = _console.PromptIndexSelection<TestEnum>(CollectionWriteStyle.Inline);
 
             Assert.Equal(TestEnum.Value1, result);
 

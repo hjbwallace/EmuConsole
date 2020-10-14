@@ -5,16 +5,16 @@ namespace EmuConsole
 {
     public static class PromptEnumExtensions
     {
-        public static TEnum PromptEnumIndexSelection<TEnum>(this IConsole console, bool writeInline = false) where TEnum : Enum
+        public static TEnum PromptIndexSelection<TEnum>(this IConsole console, CollectionWriteStyle style = CollectionWriteStyle.Rows) where TEnum : Enum
         {
             var source = Enum.GetValues(typeof(TEnum)).Cast<TEnum>();
-            return console.PromptIndexSelection(source, writeInline);
+            return console.PromptIndexSelection(source, style);
         }
 
-        public static TEnum[] PromptEnumIndexSelections<TEnum>(this IConsole console, bool allowEmpty = false, bool writeInline = false) where TEnum : Enum
+        public static TEnum[] PromptIndexSelections<TEnum>(this IConsole console, bool allowEmpty = false, CollectionWriteStyle style = CollectionWriteStyle.Rows) where TEnum : Enum
         {
             var source = Enum.GetValues(typeof(TEnum)).Cast<TEnum>();
-            return console.PromptIndexSelections(source, allowEmpty, writeInline);
+            return console.PromptIndexSelections(source, allowEmpty, style);
         }
     }
 }
