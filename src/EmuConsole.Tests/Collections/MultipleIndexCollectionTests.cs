@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Linq;
+using Xunit;
 
 namespace EmuConsole.Tests.Collections
 {
@@ -342,6 +343,44 @@ namespace EmuConsole.Tests.Collections
 
 [0] two (1)
 > 1
+");
+        }
+
+        [Fact]
+        public void CanSelectEntryFromLargeEnumerable()
+        {
+            _console.AddLinesToRead(0);
+
+            var collection = Enumerable.Range(1, 20).Select(x => $"Entry {x}").ToArray();
+            var indexCollection = new MultipleIndexCollection<string>(collection);
+            var selections = indexCollection.GetSelection(_console);
+
+            Assert.Single(selections, "Entry 1");
+
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(21);
+            _console.HasOutput($@"
+[ 0] Entry 1
+[ 1] Entry 2
+[ 2] Entry 3
+[ 3] Entry 4
+[ 4] Entry 5
+[ 5] Entry 6
+[ 6] Entry 7
+[ 7] Entry 8
+[ 8] Entry 9
+[ 9] Entry 10
+[10] Entry 11
+[11] Entry 12
+[12] Entry 13
+[13] Entry 14
+[14] Entry 15
+[15] Entry 16
+[16] Entry 17
+[17] Entry 18
+[18] Entry 19
+[19] Entry 20
+> 0
 ");
         }
     }

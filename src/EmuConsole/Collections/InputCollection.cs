@@ -35,10 +35,10 @@ namespace EmuConsole
 
             var input = PromptInput(console);
 
-            var foundInput = source.Select(x => x.Key?.ToString()).Contains(input);
+            var foundInput = source.Select(x => GetKey(x.Key)).Contains(input);
 
             if (foundInput)
-                return source.Single(x => x.Key?.ToString() == input).Value;
+                return source.Single(x => GetKey(x.Key) == input).Value;
 
             if (input.StartsWith("%") == true)
             {
@@ -52,7 +52,7 @@ namespace EmuConsole
             }
 
             if (input == null || _isOptional)
-                return source.SingleOrDefault(x => x.Key?.ToString() == _defaultValue).Value;
+                return source.SingleOrDefault(x => GetKey(x.Key) == _defaultValue).Value;
 
             return GetSelectionInternal(console, style, source, false);
         }

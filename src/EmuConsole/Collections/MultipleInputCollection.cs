@@ -43,13 +43,13 @@ namespace EmuConsole
                 return GetSelectionInternal(console, style, newSource.Any() ? newSource : _source, true);
             }
 
-            var foundInputs = inputs.Intersect(source.Select(x => x.Key?.ToString()));
+            var foundInputs = inputs.Intersect(source.Select(x => GetKey(x.Key)));
 
             if (!foundInputs.Any() && !_allowEmpty)
                 return GetSelectionInternal(console, style, source, false);
 
             return foundInputs
-                .Select(x => source.Single(a => a.Key?.ToString() == x).Value)
+                .Select(x => source.Single(a => GetKey(a.Key) == x).Value)
                 .ToArray();
         }
 

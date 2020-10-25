@@ -39,6 +39,18 @@ namespace EmuConsole
                 .ToArray();
         }
 
+        protected override IList<KeyValuePair<string, string>> GenerateDisplay(IEnumerable<KeyValuePair<int, TEntity>> source)
+        {
+            var length = source.Count();
+            var padSize = length.ToString().Length;
+
+            return source.Select(x => new KeyValuePair<string, string>
+            (
+                GetKey(x.Key).PadLeft(padSize),
+                GetDescription(x.Key, x.Value)
+            )).ToList();
+        }
+
         private static Func<int, TEntity, object> GenerateDescriptionSelector(Func<TEntity, object> descriptionSelector)
         {
             return descriptionSelector != null

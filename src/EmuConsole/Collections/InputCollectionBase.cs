@@ -32,7 +32,7 @@ namespace EmuConsole
                                                         IList<KeyValuePair<TKey, TEntity>> source,
                                                         bool writeCollection);
 
-        protected IList<KeyValuePair<string, string>> GenerateDisplay(IEnumerable<KeyValuePair<TKey, TEntity>> source)
+        protected virtual IList<KeyValuePair<string, string>> GenerateDisplay(IEnumerable<KeyValuePair<TKey, TEntity>> source)
         {
             return source.Select(x => new KeyValuePair<string, string>
             (
