@@ -9,7 +9,7 @@ namespace EmuConsole
     {
         private readonly bool _allowEmpty;
 
-        public MultipleInputCollection(IDictionary<TKey, TEntity> source,
+        public MultipleInputCollection(IEnumerable<KeyValuePair<TKey, TEntity>> source,
                                        Func<TKey, TEntity, object> descriptionSelector = null,
                                        bool allowEmpty = false)
             : base(source, descriptionSelector)

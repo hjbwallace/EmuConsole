@@ -6,15 +6,19 @@ namespace EmuConsole
 {
     public abstract class InputCollectionBase<TKey, TEntity, TResult>
     {
-        protected readonly IList<KeyValuePair<TKey, TEntity>> _source;
+        protected readonly KeyValuePair<TKey, TEntity>[] _source;
         private readonly Func<TKey, TEntity, object> _descriptionSelector;
 
-        public InputCollectionBase(IDictionary<TKey, TEntity> source, Func<TKey, TEntity, object> descriptionSelector)
+        public InputCollectionBase(IEnumerable<KeyValuePair<TKey, TEntity>> source,
+                                   Func<TKey, TEntity, object> descriptionSelector)
         {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
             if (!source.Any())
                 throw new ArgumentException("Source must be populated");
 
-            _source = source.Select((x) => new KeyValuePair<TKey, TEntity>(x.Key, x.Value)).ToList();
+            _source = source.ToArray();
             _descriptionSelector = descriptionSelector ?? ((key, value) => value?.ToString());
         }
 

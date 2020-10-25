@@ -6,9 +6,9 @@ namespace EmuConsole
 {
     public class MultipleIndexCollection<TEntity> : MultipleInputCollection<int, TEntity>
     {
-        public MultipleIndexCollection(IDictionary<int, TEntity> source,
+        public MultipleIndexCollection(IEnumerable<KeyValuePair<int, TEntity>> source,
                                        Func<int, TEntity, object> descriptionSelector = null,
-                                       bool allowEmpty = false) 
+                                       bool allowEmpty = false)
             : base(source, descriptionSelector, allowEmpty)
         {
         }

@@ -10,7 +10,7 @@ namespace EmuConsole
         private readonly bool _isOptional;
         private readonly string _defaultValue;
 
-        public InputCollection(IDictionary<TKey, TEntity> source,
+        public InputCollection(IEnumerable<KeyValuePair<TKey, TEntity>> source,
                                Func<TKey, TEntity, object> descriptionSelector = null,
                                bool isOptional = false,
                                string defaultValue = default)
