@@ -1,57 +1,65 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EmuConsole
 {
-    public class IndexCollection<TEntity>
+    public class IndexCollection<TEntity> : InputCollection<int, TEntity>
     {
-        private readonly IDictionary<int, TEntity> _source;
-        private readonly IList<KeyValuePair<string, string>> _display;
-        private readonly bool _isOptional;
-        private readonly int? _defaultValue;
-
-        public IndexCollection(IEnumerable<TEntity> source, bool isOptional = false, int? defaultValue = default)
-            : this(source, x => x?.ToString(), isOptional, defaultValue)
+        public IndexCollection(IEnumerable<TEntity> source,
+                               bool isOptional = false,
+                               int? defaultValue = default)
+            : this(source, null, isOptional, defaultValue)
         {
         }
 
-        public IndexCollection(IEnumerable<TEntity> source, Func<TEntity, object> descriptionSelector, bool isOptional = false, int? defaultValue = default)
+        public IndexCollection(IEnumerable<TEntity> source,
+                               Func<TEntity, object> descriptionSelector,
+                               bool isOptional = false,
+                               int? defaultValue = default)
+            : this(MapSourceFromEnumerable(source), GenerateDescriptionSelector(descriptionSelector), isOptional, defaultValue)
         {
-            if (!source.Any())
-                throw new ArgumentException("Source must be populated");
+        }
 
-            _source = new ConcurrentDictionary<int, TEntity>();
-            _display = new List<KeyValuePair<string, string>>();
+        public IndexCollection(IEnumerable<KeyValuePair<int, TEntity>> source,
+                               Func<int, TEntity, object> descriptionSelector = null,
+                               bool isOptional = false,
+                               int? defaultValue = default)
+            : base(source, descriptionSelector, isOptional, defaultValue?.ToString())
+        {
+        }
 
+        protected override KeyValuePair<int, TEntity>[] MapSource(IEnumerable<KeyValuePair<int, TEntity>> source)
+        {
+            return source
+                .Select((x, i) => new KeyValuePair<int, TEntity>(i, x.Value))
+                .ToArray();
+        }
+
+        protected override IList<KeyValuePair<string, string>> GenerateDisplay(IEnumerable<KeyValuePair<int, TEntity>> source)
+        {
             var length = source.Count();
             var padSize = length.ToString().Length;
 
-            for (int i = 0; i < length; i++)
-            {
-                var item = source.ElementAt(i);
-
-                _source.Add(i, item);
-                _display.Add(new KeyValuePair<string, string>(i.ToString().PadLeft(padSize), descriptionSelector(item).ToString()));
-            }
-
-            _isOptional = isOptional;
-            _defaultValue = defaultValue;
+            return source.Select(x => new KeyValuePair<string, string>
+            (
+                GetKey(x.Key).PadLeft(padSize),
+                GetDescription(x.Key, x.Value)
+            )).ToList();
         }
 
-        public TEntity GetSelection(IConsole console, CollectionWriteStyle style)
+        private static Func<int, TEntity, object> GenerateDescriptionSelector(Func<TEntity, object> descriptionSelector)
         {
-            console.WriteLine();
-            console.WriteCollection(_display, style);
+            return descriptionSelector != null
+                ? ((key, value) => descriptionSelector(value))
+                : (Func<int, TEntity, object>)null;
+        }
 
-            var keys = _source.Keys.ToArray();
-
-            var input = _isOptional
-                ? console.PromptIntOptional(null, keys, _defaultValue)
-                : console.PromptInt(null, keys);
-
-            return input == null ? default : _source[input.Value];
+        private static IDictionary<int, TEntity> MapSourceFromEnumerable(IEnumerable<TEntity> source)
+        {
+            return source?
+                .Select((x, i) => new KeyValuePair<int, TEntity>(i, x))
+                .ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }

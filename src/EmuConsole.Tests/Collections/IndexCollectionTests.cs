@@ -173,5 +173,165 @@ namespace EmuConsole.Tests.Collections
 > 20
 ");
         }
+
+        [Fact]
+        public void CanSelectEntryFromEnumerableWithFilter()
+        {
+            _console.AddLinesToRead(20, "% two", 0);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, false);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Equal("two (1)", selection);
+
+            _console.HasLinesRead(3);
+            _console.HasLinesWritten(6);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> 20
+> % two
+
+[0] two (1)
+> 0
+");
+        }
+
+        [Theory]
+        [InlineData("% ONE")]
+        [InlineData("% N")]
+        [InlineData("% n")]
+        [InlineData("% One")]
+        [InlineData("% one")]
+        [InlineData("%ONE   ")]
+        [InlineData("%One   ")]
+        [InlineData("%one   ")]
+        public void FilterIsCaseInsensitiveAndTrimmed(string filter)
+        {
+            _console.AddLinesToRead(filter, 0);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, false);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Equal("one (0)", selection);
+
+            _console.HasLinesRead(2);
+            _console.HasLinesWritten(6);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> {filter}
+
+[0] one (0)
+> 0
+");
+        }
+
+        [Fact]
+        public void CanSelectEntryFromEnumerableWhenFilterReturnsNone()
+        {
+            _console.AddLinesToRead(20, "% missing", 0);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, false);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Equal("one (0)", selection);
+
+            _console.HasLinesRead(3);
+            _console.HasLinesWritten(8);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> 20
+> % missing
+
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> 0
+");
+        }
+
+        [Fact]
+        public void CanSelectEntryFromEnumerableWithMultipleFilters()
+        {
+            _console.AddLinesToRead(20, "% two", "%(0)", 0);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, false);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Equal("one (0)", selection);
+
+            _console.HasLinesRead(4);
+            _console.HasLinesWritten(8);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> 20
+> % two
+
+[0] two (1)
+> %(0)
+
+[0] one (0)
+> 0
+");
+        }
+
+        [Fact]
+        public void CanSelectEntryFromEnumerableWithFilterWhileAllowingEmpty()
+        {
+            _console.AddLinesToRead("% two", 0);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, true);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Equal("two (1)", selection);
+
+            _console.HasLinesRead(2);
+            _console.HasLinesWritten(6);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> % two
+
+[0] two (1)
+> 0
+");
+        }
+
+        [Fact]
+        public void CanSelectEntryFromEnumerableWithFilterWithMissingSelection()
+        {
+            _console.AddLinesToRead("% two", 1);
+
+            var collection = new[] { "one (0)", "two (1)", "three (2)" };
+            var indexCollection = new IndexCollection<string>(collection, true);
+            var selection = indexCollection.GetSelection(_console);
+
+            Assert.Null(selection);
+
+            _console.HasLinesRead(2);
+            _console.HasLinesWritten(6);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> % two
+
+[0] two (1)
+> 1
+");
+        }
     }
 }
