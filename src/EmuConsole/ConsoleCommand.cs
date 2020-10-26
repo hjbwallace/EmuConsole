@@ -87,7 +87,7 @@ namespace EmuConsole
 
         private static Func<Task> ConvertProcess(ConsoleProcess process, ConsoleOptions options)
         {
-            return process == null 
+            return process == null
                 ? (Func<Task>)null
                 : (() => process.RunAsync(options));
         }

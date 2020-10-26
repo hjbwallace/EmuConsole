@@ -1,5 +1,4 @@
-﻿using EmuConsole.Extensions;
-using System;
+﻿using System;
 
 namespace EmuConsole
 {

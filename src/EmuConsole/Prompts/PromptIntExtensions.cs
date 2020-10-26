@@ -1,6 +1,4 @@
-﻿using EmuConsole.Extensions;
-
-namespace EmuConsole
+﻿namespace EmuConsole
 {
     public static class PromptIntExtensions
     {

@@ -13,7 +13,7 @@ namespace EmuConsole
             T[] allowedValues,
             T defaultValue,
             bool hasDefault,
-            bool retry, 
+            bool retry,
             string promptError = null)
         {
             console.WritePromptMessage(promptMessage, promptError);

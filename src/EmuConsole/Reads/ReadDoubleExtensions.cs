@@ -2,7 +2,6 @@
 
 namespace EmuConsole
 {
-
     public static class ReadDoubleExtensions
     {
         public static double? ReadDouble(this IConsole console)

@@ -1,5 +1,4 @@
 ﻿using EmuConsole.ExampleApp.Processes;
-using EmuConsole.ExampleApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

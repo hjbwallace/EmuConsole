@@ -15,7 +15,7 @@ namespace EmuConsole
 
         public MultipleIndexCollection(IEnumerable<TEntity> source,
                                        Func<int, TEntity, object> descriptionSelector = null,
-                                       bool allowEmpty = false) 
+                                       bool allowEmpty = false)
             : this(MapSourceFromEnumerable(source), descriptionSelector, allowEmpty)
         {
         }

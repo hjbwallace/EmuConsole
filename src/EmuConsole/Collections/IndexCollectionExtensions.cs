@@ -4,7 +4,7 @@
     {
         public static TEntity GetSelection<TEntity>(this IndexCollection<TEntity> collection, IConsole console, bool writeInline = false)
         {
-            return collection.GetSelection(console, 
+            return collection.GetSelection(console,
                 writeInline ? CollectionWriteStyle.Inline : CollectionWriteStyle.Rows);
         }
 

@@ -45,7 +45,7 @@ namespace EmuConsole.Tests.Collections
 [0] one (0)
 [1] two (1)
 [2] three (2)
-> 
+>
 > 0
 ");
         }
@@ -67,7 +67,7 @@ namespace EmuConsole.Tests.Collections
 [0] one (0)
 [1] two (1)
 [2] three (2)
-> 
+>
 ");
         }
 

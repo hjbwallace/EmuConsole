@@ -56,11 +56,11 @@ namespace EmuConsole
         }
 
         internal static DateTime? PromptDateTimeOptionalInternal(
-            this IConsole console, 
-            string promptMessage, 
-            DateTime[] allowedValues, 
-            DateTime? defaultValue, 
-            bool hasDefault, 
+            this IConsole console,
+            string promptMessage,
+            DateTime[] allowedValues,
+            DateTime? defaultValue,
+            bool hasDefault,
             bool retry)
         {
             return console.PromptValueInternal(

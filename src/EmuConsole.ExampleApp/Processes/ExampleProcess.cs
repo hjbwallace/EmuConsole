@@ -1,5 +1,4 @@
 ﻿using EmuConsole.ExampleApp.Services;
-using System;
 using System.Collections.Generic;
 
 namespace EmuConsole.ExampleApp.Processes
@@ -8,7 +7,7 @@ namespace EmuConsole.ExampleApp.Processes
     {
         private readonly IGuidGenerator _guidGenerator;
 
-        public ExampleProcess(IConsole console, ConsoleOptions options, IGuidGenerator guidGenerator) 
+        public ExampleProcess(IConsole console, ConsoleOptions options, IGuidGenerator guidGenerator)
             : base(console, options)
         {
             _guidGenerator = guidGenerator;
