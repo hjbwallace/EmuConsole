@@ -5,9 +5,9 @@ namespace EmuConsole
 {
     public static class PromptIndexSelectionExtensions
     {
-        public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, bool writeInline = false)
+        public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, bool writeInline = false, bool isOptional = false)
         {
-            var indexCollection = new IndexCollection<T>(source);
+            var indexCollection = new IndexCollection<T>(source, isOptional);
             return indexCollection.GetSelection(console, writeInline);
         }
 
@@ -17,15 +17,21 @@ namespace EmuConsole
             return indexCollection.GetSelection(console, style);
         }
 
-        public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector, bool writeInline = false)
+        public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector, bool writeInline = false, bool isOptional = false)
         {
-            var indexCollection = new IndexCollection<T>(source, descriptionSelector);
+            var indexCollection = new IndexCollection<T>(source, descriptionSelector, isOptional);
             return indexCollection.GetSelection(console, writeInline);
         }
 
         public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector, CollectionWriteStyle style)
         {
             var indexCollection = new IndexCollection<T>(source, descriptionSelector);
+            return indexCollection.GetSelection(console, style);
+        }
+
+        public static T PromptIndexSelection<T>(this IConsole console, IEnumerable<T> source, Func<T, object> descriptionSelector, CollectionWriteStyle style, int? defaultValue)
+        {
+            var indexCollection = new IndexCollection<T>(source, descriptionSelector, isOptional: true, defaultValue: defaultValue);
             return indexCollection.GetSelection(console, style);
         }
 
