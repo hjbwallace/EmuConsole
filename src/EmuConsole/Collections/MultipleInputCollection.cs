@@ -32,7 +32,9 @@ namespace EmuConsole
             if (!inputs.Any())
                 return new TEntity[0];
 
-            if (inputs[0]?.StartsWith("%") == true)
+            var sourceKeys = source.Select(x => GetKey(x.Key)).ToArray();
+
+            if (inputs[0]?.StartsWith("%") == true && !sourceKeys.Contains(inputs[0]))
             {
                 var filter = inputs[0].Substring(1).Trim();
                 var newSourceItems = _source
@@ -43,7 +45,7 @@ namespace EmuConsole
                 return GetSelectionInternal(console, style, newSource.Any() ? newSource : _source, true);
             }
 
-            var foundInputs = inputs.Intersect(source.Select(x => GetKey(x.Key)));
+            var foundInputs = inputs.Intersect(sourceKeys);
 
             if (!foundInputs.Any() && !_allowEmpty)
                 return GetSelectionInternal(console, style, source, false);

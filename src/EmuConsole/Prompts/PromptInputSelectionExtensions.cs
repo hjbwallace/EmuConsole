@@ -16,6 +16,17 @@ namespace EmuConsole
             return indexCollection.GetSelection(console, style);
         }
 
+        public static TValue PromptInputSelection<TKey, TValue>(
+            this IConsole console,
+            IDictionary<TKey, TValue> source,
+            Func<TKey, TValue, object> descriptionSelector,
+            string defaultValue,
+            CollectionWriteStyle style = CollectionWriteStyle.Rows)
+        {
+            var indexCollection = new InputCollection<TKey, TValue>(source, descriptionSelector, isOptional: true, defaultValue: defaultValue);
+            return indexCollection.GetSelection(console, style);
+        }
+
         public static TValue[] PromptInputSelections<TKey, TValue>(
             this IConsole console,
             IDictionary<TKey, TValue> source,
