@@ -24,7 +24,7 @@ namespace EmuConsole
             return isInt ? value : (int?)null;
         }
 
-        private static int?[] ParseInts(string input)
+        internal static int?[] ParseInts(string input)
         {
             var splitInput = input?.Split('/').WherePopulated() ?? new string[0];
 

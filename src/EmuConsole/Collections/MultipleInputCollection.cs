@@ -45,7 +45,7 @@ namespace EmuConsole
                 return GetSelectionInternal(console, style, newSource.Any() ? newSource : _source, true);
             }
 
-            var foundInputs = inputs.Intersect(sourceKeys);
+            var foundInputs = inputs.SelectMany(MapInput).Intersect(sourceKeys);
 
             if (!foundInputs.Any() && !_allowEmpty)
                 return GetSelectionInternal(console, style, source, false);
@@ -53,6 +53,11 @@ namespace EmuConsole
             return foundInputs
                 .Select(x => source.Single(a => GetKey(a.Key) == x).Value)
                 .ToArray();
+        }
+
+        protected virtual IEnumerable<string> MapInput(string input)
+        { 
+            yield return input; 
         }
 
         protected virtual KeyValuePair<TKey, TEntity>[] MapSource(IEnumerable<KeyValuePair<TKey, TEntity>> source)

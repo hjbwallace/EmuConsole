@@ -32,6 +32,12 @@ namespace EmuConsole
         {
         }
 
+        protected override IEnumerable<string> MapInput(string input)
+        {
+            var ints = ReadIntExtensions.ParseInts(input);
+            return ints.Where(x => x.HasValue).Select(x => x.ToString());
+        }
+
         protected override KeyValuePair<int, TEntity>[] MapSource(IEnumerable<KeyValuePair<int, TEntity>> source)
         {
             return source

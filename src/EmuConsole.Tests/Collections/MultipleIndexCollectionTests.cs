@@ -53,9 +53,32 @@ namespace EmuConsole.Tests.Collections
 ");
         }
 
+        [Fact]
+        public void CanSelectMultipleEntriesFromEnumerableWithRange()
+        {
+            _console.AddLinesToRead("0/2");
+
+            var selections = GetSelection();
+
+            Assert.Contains("one (0)", selections);
+            Assert.Contains("two (1)", selections);
+            Assert.Contains("three (2)", selections);
+            Assert.Equal(3, selections.Length);
+
+            _console.HasLinesRead(1);
+            _console.HasLinesWritten(4);
+            _console.HasOutput($@"
+[0] one (0)
+[1] two (1)
+[2] three (2)
+> 0/2
+");
+        }
+
         protected override void AssertFound(string[] selection, string expected)
         {
             Assert.Single(selection, expected);
+            Assert.Single(selection);
         }
 
         protected override void AssertMissing(string[] selection)
